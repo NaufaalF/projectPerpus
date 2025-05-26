@@ -25,17 +25,14 @@ public class BukuController {
         this.bookRepository = bookRepository;
     }
 
-    @GetMapping("/home")
-    public String home(Model model) {
-        model.addAttribute("buku", bookRepository.findAll());
-        return "user/homepage";
-    }
-
+    // ========================================= Untuk admin =========================================
+    // Menampilkan halaman upload buku
     @GetMapping("/upload")
     public String showUploadForm() {
         return "admin/uploadBuku";
     }
 
+    // POST request untuk menambahkan buku
     @PostMapping("/upload")
     public String uploadBuku(@RequestParam("title") String title,
                             @RequestParam("author") String author,
@@ -59,6 +56,15 @@ public class BukuController {
         return "redirect:/home";
     }
 
+    // ========================================= Untuk user =========================================
+    // Menampilkan halaman utama
+    @GetMapping("/home")
+    public String home(Model model) {
+        model.addAttribute("buku", bookRepository.findAll());
+        return "user/homepage";
+    }
+    
+    // Menampilkan cover buku
     @GetMapping("/cover/{id}")
     public ResponseEntity<byte[]> getCover(@PathVariable Long id) {
         Buku buku = bookRepository.findById(id).orElseThrow();
@@ -69,6 +75,7 @@ public class BukuController {
             .body(image);
     }
 
+    // Menampilkan detail buku sesuai ID
     @GetMapping("/home/buku/{id}")
     public String detailBuku(@PathVariable Long id, Model model) {
         Buku buku = bookRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Buku tidak ditemukan"));
