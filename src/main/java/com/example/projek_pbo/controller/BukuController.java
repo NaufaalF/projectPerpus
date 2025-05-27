@@ -25,6 +25,18 @@ public class BukuController {
         this.bookRepository = bookRepository;
     }
 
+    // @GetMapping("/tabel-buku")
+    // public String pagebuku() {
+    //     return "admin/buku";
+    // }
+    
+    @GetMapping("/tabel-buku")
+    public String tampilkanTabelBuku(Model model) {
+        List<Buku> daftarBuku = bookRepository.findAll();
+        model.addAttribute("daftarBuku", daftarBuku);
+        return "admin/buku"; // ganti dengan nama file HTML kamu
+    }
+
 
     @GetMapping("/upload")
     public String showUploadForm() {

@@ -62,7 +62,7 @@
             <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
                 <div class="position-sticky">
                     <ul class="nav flex-column p-3 gap-3">
-                        <li class="nav-item d-flex align-items-center mb-2 active">
+                        <li class="nav-item d-flex align-items-center mb-2">
                             <i class="fa-solid fa-chart-line logo-book fa-2x d-flex justify-content-center" style="color: #11007e; width: 50px;"></i>
                             <a class="nav-link p-1 fw-bold" style="color:#11007e; font-size: large;" href="/dashboard">
                                 Dashboard
@@ -74,7 +74,7 @@
                                 Peminjaman
                             </a>
                         </li>
-                        <li class="nav-item d-flex align-items-center mb-2">
+                        <li class="nav-item d-flex align-items-center mb-2 active">
                             <i class="fa-solid fa-users logo-book fa-2x d-flex justify-content-center" style="color: #11007e; width: 50px;"></i>
                             <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/tabel-user">
                                 User
@@ -102,109 +102,59 @@
                 </div>
             </nav>
 
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-4 p-3">
+                        <main class="col-md-9 ms-sm-auto col-lg-10 px-4 p-3">
                 <div class="row align-items-center mb-4">
                     <div class="col-auto">
-                        <i class="fa-solid fa-chart-line logo-book fa-4x" style="color: #11007e; width: 50px;"></i>
+                        <i class="fa-solid fa-users logo-book fa-4x" style="color: #11007e; width: 50px;"></i>
                     </div>
                     <div class="col">
-                        <h1 class="fw-bold" style="padding-bottom: 0; color: #11007e;">Admin Dashboard</h1>
+                        <h1 class="fw-bold" style="padding-bottom: 0; color: #11007e;">Tabel User</h1>
                     </div>
                 </div>
 
-                <div class="row">
-                    <!-- Kotak 1 -->
-                    <div class="col-6 col-md-3 mb-4">
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <div class="row align-items-center"> 
-                                    <div class="col-auto">
-                                        <i class="fa-solid fa-bookmark logo-book fa-3x" style="color: #11007e; width: 50px;"></i>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped align-middle text-center">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Judul</th>
+                                <th>Penulis</th>
+                                <th>Penerbit</th>
+                                <th>Tahun</th>
+                                <th>Kategori</th>
+                                <th>Deskripsi</th>
+                                <th>Lokasi Rak</th>
+                                <th>Ketersediaan</th>
+                                <th>Cover</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="buku : ${daftarBuku}">
+                                <td th:text="${buku.id}"></td>
+                                <td th:text="${buku.title}"></td>
+                                <td th:text="${buku.author}"></td>
+                                <td th:text="${buku.publisher}"></td>
+                                <td th:text="${buku.year}"></td>
+                                <td th:text="${buku.category}"></td>
+                                <td>
+                                    <div style="max-height: 100px; max-width: 200px; overflow-y: auto; overflow-x: hidden;">
+                                        <p th:text="${buku.description}" style="margin: 0;"></p>
                                     </div>
-                                    <div class="col text-start">
-                                        <h4 class="fw-bold" style="padding-bottom: 0px; margin-bottom: 0%; color: #11007e;">Total Pinjam</h4>
-
-                                        <h5 th:text="${totalPinjam}" style="padding-bottom: 0px; margin-bottom: 0%; color: #11007e;">Total Pinjam</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Kotak 2 -->
-                    <div class="col-6 col-md-3 mb-4">
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <div class="row align-items-center"> 
-                                    <div class="col-auto">
-                                        <i class="fa-solid fa-users logo-book fa-3x" style="color: #11007e; width: 50px;"></i>
-                                    </div>
-                                    <div class="col text-start">
-                                        <h4 class="fw-bold" style="padding-bottom: 0px; margin-bottom: 0%; color: #11007e;">Total User</h4>
-
-                                        <h5 th:text="${totalUser}" style="padding-bottom: 0px; margin-bottom: 0%; color: #11007e;">Total User</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Kotak 3 -->
-                    <div class="col-6 col-md-3 mb-4">
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <div class="row align-items-center"> 
-                                    <div class="col-auto">
-                                        <i class="fa-solid fa-user-tie logo-book fa-3x" style="color: #11007e; width: 50px;"></i>
-                                    </div>
-                                    <div class="col text-start">
-                                        <h4 class="fw-bold" style="padding-bottom: 0px; margin-bottom: 0%; color: #11007e;">Total Admin</h4>
-
-                                        <h5 th:text="${totalAdmin}" style="padding-bottom: 0px; margin-bottom: 0%; color: #11007e;">Total Admin</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Kotak 4 -->
-                    <div class="col-6 col-md-3 mb-4">
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <div class="row align-items-center"> 
-                                    <div class="col-auto">
-                                        <i class="fa-solid fa-user logo-book fa-3x" style="color: #11007e; width: 50px;"></i>
-                                    </div>
-                                    <div class="col text-start">
-                                        <h4 class="fw-bold" style="padding-bottom: 0px; margin-bottom: 0%; color: #11007e;">Total Anggota</h4>
-
-                                        <h5 th:text="${totalAnggota}" style="padding-bottom: 0px; margin-bottom: 0%; color: #11007e;">Total Anggota</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Kotak 5 -->
-                    <div class="col-6 col-md-3 mb-4">
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <div class="row align-items-center"> 
-                                    <div class="col-auto">
-                                        <i class="fa-solid fa-book logo-book fa-3x" style="color: #11007e; width: 50px;"></i>
-                                    </div>
-                                    <div class="col text-start">
-                                        <h4 class="fw-bold" style="padding-bottom: 0px; margin-bottom: 0%; color: #11007e;">Total Buku</h4>
-
-                                        <h5 th:text="${totalBuku}" style="padding-bottom: 0px; margin-bottom: 0%; color: #11007e;">Total Buku</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Tambahkan lebih banyak kotak sesuai kebutuhan -->
+                                </td>
+                                <td th:text="${buku.lokasi_rak}"></td>
+                                <td>
+                                    <span th:text="${buku.available} ? 'Tersedia' : 'Tidak Tersedia'" 
+                                        th:classappend="${buku.available} ? 'text-success' : 'text-danger'"></span>
+                                </td>
+                                <td>
+                                    <img th:src="@{'/cover/' + ${buku.id}}" alt="Cover" width="60" height="90" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </main>
+
         </div>
     </div>
 </body>

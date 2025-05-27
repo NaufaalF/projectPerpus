@@ -9,15 +9,14 @@
 </head>
 <body>
     <style>
-        /* .active {
-            background-color: #11007e;
-        } */
+        .nav-item.active {
+            /* background-color: #d3d3d3;  */
+            border-left: 4px solid #11007e;
+            border-radius: 0px;
+        }
 
-        .active a,
-        .active i {
-            color:#11007e !important; /* Warna teks dan ikon saat aktif */
-            text-shadow: 0px 0px 39px rgba(17,0,126,1);
-            /* background-color: #11007e; */
+        .nav-item.active .nav-link { 
+            color: #11007e; /* Warna teks saat aktif */
         }
     </style>
     <script src="https://kit.fontawesome.com/808ba9c7d8.js" crossorigin="anonymous"></script>
@@ -36,17 +35,20 @@
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Profil
+                            <span th:if="${#authorization.expression('isAuthenticated()')}"
+                                th:text="${#authentication.name}">Profil</span>
+                            <span th:if="${#authorization.expression('isAnonymous()')}">Profil</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profilDropdown">
-                            <li th:if="${buku != null}">
+                            <!-- Jika belum login -->
+                            <li th:if="${#authorization.expression('isAnonymous()')}">
                                 <a class="dropdown-item" href="/login">Login</a>
                             </li>
-                            <li th:if="${buku != null}">
-                                <span class="dropdown-item-text">Hai, <span th:text="${username}">User </span></span>
-                            </li>
-                            <li th:if="${buku != null}">
-                                <a class="dropdown-item" href="/logout">Logout</a>
+                            
+                            <li th:if="${#authorization.expression('isAuthenticated()')}">
+                                <form th:action="@{/logout}" method="post">
+                                    <button class="dropdown-item" type="submit">Logout</button>
+                                </form>
                             </li>
                         </ul>
                     </li>
@@ -58,57 +60,73 @@
     <div class="container-fluid" style="height: 90vh;">
         <div class="row" style="height: 90vh;">
             <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
-               <div class="position-sticky">
+                <div class="position-sticky">
                     <ul class="nav flex-column p-3 gap-3">
                         <li class="nav-item d-flex align-items-center mb-2 active">
                             <i class="fa-solid fa-chart-line logo-book fa-2x d-flex justify-content-center" style="color: #11007e; width: 50px;"></i>
-                            <a class="nav-link p-1 active fw-bold" style="color: #11007e; font-size: large;" href="/dashboard">
+                            <a class="nav-link p-1 fw-bold" style="color:#11007e; font-size: large;" href="/dashboard">
                                 Dashboard
                             </a>
                         </li>
                         <li class="nav-item d-flex align-items-center mb-2">
                             <i class="fa-solid fa-bookmark logo-book fa-2x d-flex justify-content-center" style="color: #11007e; width: 50px;"></i>
-                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/peminjaman">
+                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/tabel-peminjaman">
                                 Peminjaman
                             </a>
                         </li>
                         <li class="nav-item d-flex align-items-center mb-2">
                             <i class="fa-solid fa-users logo-book fa-2x d-flex justify-content-center" style="color: #11007e; width: 50px;"></i>
-                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/user">
+                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/tabel-user">
                                 User
                             </a>
                         </li>
                         <li class="nav-item d-flex align-items-center mb-2">
                             <i class="fa-solid fa-user-tie logo-book fa-2x d-flex justify-content-center" style="color: #11007e; width: 50px;"></i>
-                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/admin">
+                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/tabel-admin">
                                 Admin
                             </a>
                         </li>
                         <li class="nav-item d-flex align-items-center mb-2">
                             <i class="fa-solid fa-user logo-book fa-2x d-flex justify-content-center" style="color: #11007e; width: 50px;"></i>
-                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/anggota">
+                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/tabel-anggota">
                                 Anggota
                             </a>
                         </li>
                         <li class="nav-item d-flex align-items-center mb-2">
                             <i class="fa-solid fa-book logo-book fa-2x d-flex justify-content-center" style="color: #11007e; width: 50px;"></i>
-                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/buku">
+                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/tabel-buku">
                                 Buku
                             </a>
                         </li>
                     </ul>
                 </div>
             </nav>
+
             <main class="col-md-9 ms-sm-auto col-lg-10 px-4 p-3">
-                <h1 style="padding-bottom: 15px;">Admin Dashboard</h1>
+                <div class="row align-items-center mb-4">
+                    <div class="col-auto">
+                        <i class="fa-solid fa-chart-line logo-book fa-4x" style="color: #11007e; width: 50px;"></i>
+                    </div>
+                    <div class="col">
+                        <h1 class="fw-bold" style="padding-bottom: 0; color: #11007e;">Admin Dashboard</h1>
+                    </div>
+                </div>
 
                 <div class="row">
                     <!-- Kotak 1 -->
                     <div class="col-6 col-md-3 mb-4">
                         <div class="card text-center">
                             <div class="card-body">
-                                <h5 class="card-title">Kotak 1</h5>
-                                <p class="card-text">Deskripsi kotak 1.</p>
+                                <div class="row align-items-center"> 
+                                    <div class="col-auto">
+                                        <i class="fa-solid fa-bookmark logo-book fa-3x" style="color: #11007e; width: 50px;"></i>
+                                    </div>
+                                    <div class="col text-start">
+                                        <h4 class="fw-bold" style="padding-bottom: 0px; margin-bottom: 0%; color: #11007e;">Total Pinjam</h4>
+
+                                        <h5 th:text="${totalPinjam}" style="padding-bottom: 0px; margin-bottom: 0%; color: #11007e;">Total Pinjam</h5>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -117,8 +135,16 @@
                     <div class="col-6 col-md-3 mb-4">
                         <div class="card text-center">
                             <div class="card-body">
-                                <h5 class="card-title">Kotak 2</h5>
-                                <p class="card-text">Deskripsi kotak 2.</p>
+                                <div class="row align-items-center"> 
+                                    <div class="col-auto">
+                                        <i class="fa-solid fa-users logo-book fa-3x" style="color: #11007e; width: 50px;"></i>
+                                    </div>
+                                    <div class="col text-start">
+                                        <h4 class="fw-bold" style="padding-bottom: 0px; margin-bottom: 0%; color: #11007e;">Total User</h4>
+
+                                        <h5 th:text="${totalUser}" style="padding-bottom: 0px; margin-bottom: 0%; color: #11007e;">Total User</h5>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -127,8 +153,16 @@
                     <div class="col-6 col-md-3 mb-4">
                         <div class="card text-center">
                             <div class="card-body">
-                                <h5 class="card-title">Kotak 3</h5>
-                                <p class="card-text">Deskripsi kotak 3.</p>
+                                <div class="row align-items-center"> 
+                                    <div class="col-auto">
+                                        <i class="fa-solid fa-user-tie logo-book fa-3x" style="color: #11007e; width: 50px;"></i>
+                                    </div>
+                                    <div class="col text-start">
+                                        <h4 class="fw-bold" style="padding-bottom: 0px; margin-bottom: 0%; color: #11007e;">Total Admin</h4>
+
+                                        <h5 th:text="${totalAdmin}" style="padding-bottom: 0px; margin-bottom: 0%; color: #11007e;">Total Admin</h5>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -137,17 +171,34 @@
                     <div class="col-6 col-md-3 mb-4">
                         <div class="card text-center">
                             <div class="card-body">
-                                <h5 class="card-title">Kotak 4</h5>
-                                <p class="card-text">Deskripsi kotak 4.</p>
+                                <div class="row align-items-center"> 
+                                    <div class="col-auto">
+                                        <i class="fa-solid fa-user logo-book fa-3x" style="color: #11007e; width: 50px;"></i>
+                                    </div>
+                                    <div class="col text-start">
+                                        <h4 class="fw-bold" style="padding-bottom: 0px; margin-bottom: 0%; color: #11007e;">Total Anggota</h4>
+
+                                        <h5 th:text="${totalAnggota}" style="padding-bottom: 0px; margin-bottom: 0%; color: #11007e;">Total Anggota</h5>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     
+                    <!-- Kotak 5 -->
                     <div class="col-6 col-md-3 mb-4">
                         <div class="card text-center">
                             <div class="card-body">
-                                <h5 class="card-title">Kotak 4</h5>
-                                <p class="card-text">Deskripsi kotak 4.</p>
+                                <div class="row align-items-center"> 
+                                    <div class="col-auto">
+                                        <i class="fa-solid fa-book logo-book fa-3x" style="color: #11007e; width: 50px;"></i>
+                                    </div>
+                                    <div class="col text-start">
+                                        <h4 class="fw-bold" style="padding-bottom: 0px; margin-bottom: 0%; color: #11007e;">Total Buku</h4>
+
+                                        <h5 th:text="${totalBuku}" style="padding-bottom: 0px; margin-bottom: 0%; color: #11007e;">Total Buku</h5>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

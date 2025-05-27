@@ -15,9 +15,9 @@ import java.util.List;
 @Controller
 public class DashboardController {
 
+    @Autowired
     private final BukuRepository bookRepository;
 
-    @Autowired
     public DashboardController(BukuRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
@@ -25,6 +25,8 @@ public class DashboardController {
     @GetMapping("/dashboard")
     public String dashboardPage(Model model) {
         // Mengambil daftar buku
+        long totalBuku = bookRepository.count(); // Mengambil total buku dari repository
+        model.addAttribute("totalBuku", totalBuku); // Menambahkan total buku ke model
         List<Buku> bukuList = bookRepository.findAll();
         model.addAttribute("buku", bukuList != null ? bukuList : List.of());
 
