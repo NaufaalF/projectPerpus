@@ -10,23 +10,18 @@
 <body>
     <script src="https://kit.fontawesome.com/808ba9c7d8.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
-    <nav class="navbar navbar-expand-lg navbar-light py-3" style="background-color: #55c300;">
+
+    <nav class="navbar navbar-expand-lg navbar-light py-3" style="background-color: #11007e;">
         <div class="container-fluid px-5">
             <a href="#">
                 <i class="fa-solid fa-book logo-book"></i>
             </a>
-            <h3 class="text-white fw-bold" style="margin-bottom: 0px;" href="#">Perpustakaan</h3>
+            <h3 class="text-white fw-bold" style="margin-bottom: 0px;">Dashboard</h3>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="/peminjaman">Peminjaman</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="/pengembalian">Pengembalian</a>
-                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Profil
@@ -36,7 +31,7 @@
                                 <a class="dropdown-item" href="/login">Login</a>
                             </li>
                             <li th:if="${buku != null}">
-                                <span class="dropdown-item-text">Hai, <span th:text="${username}">User</span></span>
+                                <span class="dropdown-item-text">Hai, <span th:text="${username}">User </span></span>
                             </li>
                             <li th:if="${buku != null}">
                                 <a class="dropdown-item" href="/logout">Logout</a>
@@ -47,7 +42,47 @@
             </div>
         </div>
     </nav>
-    
 
+    <div class="container-fluid" style="height: 90vh;">
+        <div class="row" style="height: 90vh;">
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+                <div class="position-sticky">
+                    <ul class="nav flex-column p-3">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/dashboard">
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/peminjaman">
+                                Peminjaman
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/pengembalian">
+                                Pengembalian
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/anggota">
+                                Anggota
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/buku">
+                                Buku
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-4 p-3">
+                <h1>Welcome to the Admin Dashboard</h1>
+                <p>Content goes here...</p>
+                <!-- Tambahkan konten dashboard Anda di sini -->
+            </main>
+        </div>
+    </div>
 </body>
 </html>
