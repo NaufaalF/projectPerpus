@@ -1,7 +1,7 @@
 package com.example.projek_pbo.config;
 
-import com.example.projek_pbo.service.CustomUserDetailsService;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,16 +20,32 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/upload").hasRole("ADMIN")
+                .requestMatchers("/anggota/**").hasRole("ANGGOTA")
                 .requestMatchers("/home", "/register", "/login", "/css/**", "/images/**", "/cover/**").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().authenticated() // Semua permintaan lainnya harus diautentikasi
             )
             .formLogin(form -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/home", true)
+                .successHandler((request, response, authentication) -> {
+                    authentication.getAuthorities().forEach(authority -> {
+                        try {
+                            if (authority.getAuthority().equals("ROLE_ADMIN")) {
+                                response.sendRedirect("/dashboard");
+                            } else if (authority.getAuthority().equals("ROLE_USER")) {
+                                response.sendRedirect("/home");
+                            }
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                })
                 .permitAll()
             )
             .logout(logout -> logout
-                .logoutSuccessUrl("/login?logout")
+                .logoutUrl("/logout") // URL untuk logout
+                .logoutSuccessUrl("/login?logout") // Redirect setelah logout sukses
+                .invalidateHttpSession(true) // Menghapus sesi
+                .deleteCookies("JSESSIONID") // Menghapus cookie JSESSIONID
                 .permitAll()
             )
             .csrf().disable(); // Aktifkan jika perlu

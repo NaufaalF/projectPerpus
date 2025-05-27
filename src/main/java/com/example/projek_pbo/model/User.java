@@ -6,13 +6,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
-public class User {
+@Entity 
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String name;
     private String username;
     private String password;
 
@@ -20,6 +21,6 @@ public class User {
     private Role role;
 
     public enum Role {
-        USER, ADMIN
+        ANGGOTA, ADMIN
     }
 }
