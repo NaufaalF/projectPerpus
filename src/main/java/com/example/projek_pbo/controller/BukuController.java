@@ -25,12 +25,6 @@ public class BukuController {
         this.bookRepository = bookRepository;
     }
 
-    @GetMapping("/home")
-    public String home(Model model) {
-        List<Buku> bukuList = bookRepository.findAll();
-        model.addAttribute("buku", bukuList != null ? bukuList : List.of());
-        return "user/homepage";
-    }
 
     @GetMapping("/upload")
     public String showUploadForm() {
@@ -63,9 +57,15 @@ public class BukuController {
 
     // ========================================= Untuk user =========================================
     // Menampilkan halaman utama
+    // @GetMapping("/home")
+    // public String home(Model model) {
+    //     model.addAttribute("buku", bookRepository.findAll());
+    //     return "user/homepage";
+    // }
     @GetMapping("/home")
     public String home(Model model) {
-        model.addAttribute("buku", bookRepository.findAll());
+        List<Buku> bukuList = bookRepository.findAll();
+        model.addAttribute("buku", bukuList != null ? bukuList : List.of());
         return "user/homepage";
     }
     

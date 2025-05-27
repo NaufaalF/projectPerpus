@@ -31,7 +31,7 @@ public class SecurityConfig {
                         try {
                             if (authority.getAuthority().equals("ROLE_ADMIN")) {
                                 response.sendRedirect("/dashboard");
-                            } else if (authority.getAuthority().equals("ROLE_USER")) {
+                            } else if (authority.getAuthority().equals("ROLE_ANGGOTA")) {
                                 response.sendRedirect("/home");
                             }
                         } catch (Exception e) {
