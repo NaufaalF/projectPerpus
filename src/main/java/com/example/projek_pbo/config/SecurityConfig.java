@@ -43,7 +43,7 @@ public class SecurityConfig {
             )
             .logout(logout -> logout
                 .logoutUrl("/logout") // URL untuk logout
-                .logoutSuccessUrl("/login?logout") // Redirect setelah logout sukses
+                .logoutSuccessUrl("/home") // Redirect setelah logout sukses
                 .invalidateHttpSession(true) // Menghapus sesi
                 .deleteCookies("JSESSIONID") // Menghapus cookie JSESSIONID
                 .permitAll()

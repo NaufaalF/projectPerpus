@@ -3,17 +3,13 @@ package com.example.projek_pbo.controller;
 import com.example.projek_pbo.model.User;
 import com.example.projek_pbo.model.Anggota;
 import com.example.projek_pbo.repository.AnggotaRepository;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-// import com.example.projek_pbo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
-// import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -66,6 +62,6 @@ public class AuthController {
     } else {
         System.out.println("No user is currently authenticated.");
     }
-    return "redirect:/login?logout";
+    return "redirect:/home";
 }
 }

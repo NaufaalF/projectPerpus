@@ -54,39 +54,4 @@ public class BukuController {
         bookRepository.save(buku);
         return "redirect:/home";
     }
-
-    // ========================================= Untuk user =========================================
-    // Menampilkan halaman utama
-    // @GetMapping("/home")
-    // public String home(Model model) {
-    //     model.addAttribute("buku", bookRepository.findAll());
-    //     return "user/homepage";
-    // }
-    @GetMapping("/home")
-    public String home(Model model) {
-        List<Buku> bukuList = bookRepository.findAll();
-        model.addAttribute("buku", bukuList != null ? bukuList : List.of());
-        return "user/homepage";
-    }
-    
-    // Menampilkan cover buku
-    @GetMapping("/cover/{id}")
-    public ResponseEntity<byte[]> getCover(@PathVariable Long id) {
-        Buku buku = bookRepository.findById(id).orElseThrow();
-        byte[] image = buku.getCover();
-
-        return ResponseEntity.ok()
-            .contentType(MediaType.IMAGE_JPEG) // Atur sesuai jenis gambar
-            .body(image);
-    }
-
-    // Menampilkan detail buku sesuai ID
-    @GetMapping("/home/buku/{id}")
-    public String detailBuku(@PathVariable Long id, Model model) {
-        Buku buku = bookRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Buku tidak ditemukan"));
-        model.addAttribute("buku", buku);
-        return "user/detailBuku"; // Ganti dengan nama file HTML detail kamu
-    }
-
 }
-
