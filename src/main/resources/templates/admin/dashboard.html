@@ -8,13 +8,25 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+    <style>
+        /* .active {
+            background-color: #11007e;
+        } */
+
+        .active a,
+        .active i {
+            color:#11007e !important; /* Warna teks dan ikon saat aktif */
+            text-shadow: 0px 0px 39px rgba(17,0,126,1);
+            /* background-color: #11007e; */
+        }
+    </style>
     <script src="https://kit.fontawesome.com/808ba9c7d8.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 
     <nav class="navbar navbar-expand-lg navbar-light py-3" style="background-color: #11007e;">
         <div class="container-fluid px-5">
             <a href="#">
-                <i class="fa-solid fa-book logo-book"></i>
+                <i class="fa-solid fa-chart-line logo-book"></i>
             </a>
             <h3 class="text-white fw-bold" style="margin-bottom: 0px;">Dashboard</h3>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,41 +58,101 @@
     <div class="container-fluid" style="height: 90vh;">
         <div class="row" style="height: 90vh;">
             <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
-                <div class="position-sticky">
-                    <ul class="nav flex-column p-3">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="/dashboard">
+               <div class="position-sticky">
+                    <ul class="nav flex-column p-3 gap-3">
+                        <li class="nav-item d-flex align-items-center mb-2 active">
+                            <i class="fa-solid fa-chart-line logo-book fa-2x d-flex justify-content-center" style="color: #11007e; width: 50px;"></i>
+                            <a class="nav-link p-1 active fw-bold" style="color: #11007e; font-size: large;" href="/dashboard">
                                 Dashboard
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/peminjaman">
+                        <li class="nav-item d-flex align-items-center mb-2">
+                            <i class="fa-solid fa-bookmark logo-book fa-2x d-flex justify-content-center" style="color: #11007e; width: 50px;"></i>
+                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/peminjaman">
                                 Peminjaman
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/pengembalian">
-                                Pengembalian
+                        <li class="nav-item d-flex align-items-center mb-2">
+                            <i class="fa-solid fa-users logo-book fa-2x d-flex justify-content-center" style="color: #11007e; width: 50px;"></i>
+                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/user">
+                                User
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/anggota">
+                        <li class="nav-item d-flex align-items-center mb-2">
+                            <i class="fa-solid fa-user-tie logo-book fa-2x d-flex justify-content-center" style="color: #11007e; width: 50px;"></i>
+                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/admin">
+                                Admin
+                            </a>
+                        </li>
+                        <li class="nav-item d-flex align-items-center mb-2">
+                            <i class="fa-solid fa-user logo-book fa-2x d-flex justify-content-center" style="color: #11007e; width: 50px;"></i>
+                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/anggota">
                                 Anggota
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/buku">
+                        <li class="nav-item d-flex align-items-center mb-2">
+                            <i class="fa-solid fa-book logo-book fa-2x d-flex justify-content-center" style="color: #11007e; width: 50px;"></i>
+                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/buku">
                                 Buku
                             </a>
                         </li>
                     </ul>
                 </div>
             </nav>
-
             <main class="col-md-9 ms-sm-auto col-lg-10 px-4 p-3">
-                <h1>Welcome to the Admin Dashboard</h1>
-                <p>Content goes here...</p>
-                <!-- Tambahkan konten dashboard Anda di sini -->
+                <h1 style="padding-bottom: 15px;">Admin Dashboard</h1>
+
+                <div class="row">
+                    <!-- Kotak 1 -->
+                    <div class="col-6 col-md-3 mb-4">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Kotak 1</h5>
+                                <p class="card-text">Deskripsi kotak 1.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kotak 2 -->
+                    <div class="col-6 col-md-3 mb-4">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Kotak 2</h5>
+                                <p class="card-text">Deskripsi kotak 2.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kotak 3 -->
+                    <div class="col-6 col-md-3 mb-4">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Kotak 3</h5>
+                                <p class="card-text">Deskripsi kotak 3.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kotak 4 -->
+                    <div class="col-6 col-md-3 mb-4">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Kotak 4</h5>
+                                <p class="card-text">Deskripsi kotak 4.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-6 col-md-3 mb-4">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Kotak 4</h5>
+                                <p class="card-text">Deskripsi kotak 4.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tambahkan lebih banyak kotak sesuai kebutuhan -->
+                </div>
             </main>
         </div>
     </div>
