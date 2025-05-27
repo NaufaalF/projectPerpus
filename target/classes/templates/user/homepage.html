@@ -9,6 +9,7 @@
 </head>
 <body style="background-color: 		#f0ecec;">
     <script src="https://kit.fontawesome.com/808ba9c7d8.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
     <nav class="navbar navbar-expand-lg navbar-light py-3" style="background-color: #55c300;">
         <div class="container-fluid px-5">
             <a href="#">
@@ -26,8 +27,22 @@
                     <li class="nav-item">
                         <a class="nav-link text-white" href="/pengembalian">Pengembalian</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="/login">Login</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Profil
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profilDropdown">
+                            <li th:if="${buku != null}">
+                                <a class="dropdown-item" href="/login">Login</a>
+                            </li>
+                            <li th:if="${buku != null}">
+                                <span class="dropdown-item-text">Hai, <span th:text="${buku != null}">User</span></span>
+                            </li>
+                            <li th:if="${buku != null}">
+                                <a class="dropdown-item" href="/logout">Logout</a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>

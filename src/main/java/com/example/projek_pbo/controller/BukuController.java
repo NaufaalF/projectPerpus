@@ -27,13 +27,14 @@ public class BukuController {
 
     @GetMapping("/home")
     public String home(Model model) {
-        model.addAttribute("buku", bookRepository.findAll());
+        List<Buku> bukuList = bookRepository.findAll();
+        model.addAttribute("buku", bukuList != null ? bukuList : List.of());
         return "user/homepage";
     }
 
     @GetMapping("/upload")
     public String showUploadForm() {
-        return "admin/uploadBuku";
+        return "admin/uploadBuku"; 
     }
 
     @PostMapping("/upload")
