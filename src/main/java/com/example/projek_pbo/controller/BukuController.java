@@ -25,11 +25,16 @@ public class BukuController {
         this.bookRepository = bookRepository;
     }
 
-    // ========================================= Untuk admin =========================================
-    // Menampilkan halaman upload buku
+    @GetMapping("/home")
+    public String home(Model model) {
+        List<Buku> bukuList = bookRepository.findAll();
+        model.addAttribute("buku", bukuList != null ? bukuList : List.of());
+        return "user/homepage";
+    }
+
     @GetMapping("/upload")
     public String showUploadForm() {
-        return "admin/uploadBuku";
+        return "admin/uploadBuku"; 
     }
 
     // POST request untuk menambahkan buku
