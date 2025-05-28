@@ -11,7 +11,7 @@
     <script src="https://kit.fontawesome.com/808ba9c7d8.js" crossorigin="anonymous"></script>
     <nav class="navbar navbar-expand-lg navbar-light py-3" style="background-color: #11007e;">
         <div class="container-fluid px-5">
-            <a href="#">
+            <a href="/dashboard">
                 <i class="fa-solid fa-chart-line logo-book"></i>
             </a>
             <h3 class="text-white fw-bold" style="margin-bottom: 0px;">Dashboard</h3>
@@ -31,7 +31,11 @@
                             <li th:if="${#authorization.expression('isAnonymous()')}">
                                 <a class="dropdown-item" href="/login">Login</a>
                             </li>
-                            
+                            <li th:if="${#authorization.expression('isAnonymous()')}">
+                                <a class="dropdown-item" href="/register">Register</a>
+                            </li>
+
+                            <!-- Jika sudah login -->
                             <li th:if="${#authorization.expression('isAuthenticated()')}">
                                 <form th:action="@{/logout}" method="post">
                                     <button class="dropdown-item" type="submit">Logout</button>
@@ -57,7 +61,7 @@
                 </div>
             </div>
 
-            <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
+            <form th:action="@{/upload-buku}" method="post" enctype="multipart/form-data">
                 <div class="mb-3 row">
                     <label for="title" class="col-sm-3 col-form-label fw-bold">Judul Buku</label>
                     <div class="col-sm-9">

@@ -21,6 +21,9 @@
     </style>
     <script src="https://kit.fontawesome.com/808ba9c7d8.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+    <div th:if="${param.success}" class="alert alert-success" role="alert">
+        Login berhasil! Selamat datang.
+    </div>
 
     <nav class="navbar navbar-expand-lg navbar-light py-3" style="background-color: #11007e;">
         <div class="container-fluid px-5">
@@ -44,7 +47,11 @@
                             <li th:if="${#authorization.expression('isAnonymous()')}">
                                 <a class="dropdown-item" href="/login">Login</a>
                             </li>
-                            
+                            <li th:if="${#authorization.expression('isAnonymous()')}">
+                                <a class="dropdown-item" href="/register">Register</a>
+                            </li>
+
+                            <!-- Jika sudah login -->
                             <li th:if="${#authorization.expression('isAuthenticated()')}">
                                 <form th:action="@{/logout}" method="post">
                                     <button class="dropdown-item" type="submit">Logout</button>
@@ -113,7 +120,7 @@
                 </div>
 
                 <div class="row">
-                    <!-- Kotak 1 -->
+                    <!-- Total Pinjam -->
                     <div class="col-6 col-md-3 mb-4">
                         <div class="card text-center">
                             <div class="card-body">
@@ -131,7 +138,7 @@
                         </div>
                     </div>
 
-                    <!-- Kotak 2 -->
+                    <!-- Total User -->
                     <div class="col-6 col-md-3 mb-4">
                         <div class="card text-center">
                             <div class="card-body">
@@ -149,7 +156,7 @@
                         </div>
                     </div>
 
-                    <!-- Kotak 3 -->
+                    <!-- Total Admin -->
                     <div class="col-6 col-md-3 mb-4">
                         <div class="card text-center">
                             <div class="card-body">
@@ -167,7 +174,7 @@
                         </div>
                     </div>
 
-                    <!-- Kotak 4 -->
+                    <!-- Total Anggota -->
                     <div class="col-6 col-md-3 mb-4">
                         <div class="card text-center">
                             <div class="card-body">
@@ -185,7 +192,7 @@
                         </div>
                     </div>
                     
-                    <!-- Kotak 5 -->
+                    <!-- Total Buku -->
                     <div class="col-6 col-md-3 mb-4">
                         <div class="card text-center">
                             <div class="card-body">
@@ -202,7 +209,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Tambahkan lebih banyak kotak sesuai kebutuhan -->
                 </div>
             </main>
         </div>

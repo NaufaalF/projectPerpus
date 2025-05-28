@@ -35,7 +35,6 @@ public class HomeController {
         return "user/homepage";
     }
 
-    
     // Menampilkan cover buku
     @GetMapping("/cover/{id}")
     public ResponseEntity<byte[]> getCover(@PathVariable Long id) {
@@ -43,8 +42,8 @@ public class HomeController {
         byte[] image = buku.getCover();
 
         return ResponseEntity.ok()
-            .contentType(MediaType.IMAGE_JPEG) // Atur sesuai jenis gambar
-            .body(image);
+                .contentType(MediaType.IMAGE_JPEG) // Atur sesuai jenis gambar
+                .body(image);
     }
 
     // Menampilkan detail buku sesuai ID

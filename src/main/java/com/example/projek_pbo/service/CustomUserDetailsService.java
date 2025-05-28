@@ -2,12 +2,10 @@ package com.example.projek_pbo.service;
 
 import com.example.projek_pbo.model.User;
 import com.example.projek_pbo.repository.UserRepository;
-
 import org.springframework.security.core.userdetails.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
-
 import java.util.Collections;
 
 @Service
@@ -28,12 +26,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         // Buat authority berdasarkan role, misalnya ROLE_ADMIN atau ROLE_USER
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRole().name().toUpperCase());
-        
 
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
-                Collections.singleton(authority)
-        );
+                Collections.singleton(authority));
     }
 }

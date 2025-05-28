@@ -26,13 +26,14 @@ public class SecurityConfig {
             )
             .formLogin(form -> form
                 .loginPage("/login")
+                .failureUrl("/login?error=true")
                 .successHandler((request, response, authentication) -> {
                     authentication.getAuthorities().forEach(authority -> {
                         try {
                             if (authority.getAuthority().equals("ROLE_ADMIN")) {
-                                response.sendRedirect("/dashboard");
+                                response.sendRedirect("/dashboard?success=true");
                             } else if (authority.getAuthority().equals("ROLE_ANGGOTA")) {
-                                response.sendRedirect("/home");
+                                response.sendRedirect("/home?success=true");
                             }
                         } catch (Exception e) {
                             throw new RuntimeException(e);

@@ -1,4 +1,5 @@
 package com.example.projek_pbo.controller;
+
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import java.util.List;
 import com.example.projek_pbo.model.Buku;
 import com.example.projek_pbo.repository.BukuRepository;
 
-
 @Controller
 public class BukuController {
 
@@ -25,34 +25,28 @@ public class BukuController {
         this.bookRepository = bookRepository;
     }
 
-    // @GetMapping("/tabel-buku")
-    // public String pagebuku() {
-    //     return "admin/buku";
-    // }
-    
     @GetMapping("/tabel-buku")
     public String tampilkanTabelBuku(Model model) {
         List<Buku> daftarBuku = bookRepository.findAll();
         model.addAttribute("daftarBuku", daftarBuku);
-        return "admin/tabel buku/buku"; // ganti dengan nama file HTML kamu
+        return "admin/tabel buku/buku";
     }
 
-
-    @GetMapping("/upload")
+    @GetMapping("/upload-buku")
     public String showUploadForm() {
-        return "admin/tabel buku/uploadBuku"; 
+        return "admin/tabel buku/uploadBuku";
     }
 
     // POST request untuk menambahkan buku
-    @PostMapping("/upload")
+    @PostMapping("/upload-buku")
     public String uploadBuku(@RequestParam("title") String title,
-                            @RequestParam("author") String author,
-                            @RequestParam("publisher") String publisher,
-                            @RequestParam("year") int year,
-                            @RequestParam("category") String category,
-                            @RequestParam("description") String description,
-                            @RequestParam("lokasi_rak") String lokasi_rak,
-                            @RequestParam("cover") MultipartFile coverFile) throws IOException {
+            @RequestParam("author") String author,
+            @RequestParam("publisher") String publisher,
+            @RequestParam("year") int year,
+            @RequestParam("category") String category,
+            @RequestParam("description") String description,
+            @RequestParam("lokasi_rak") String lokasi_rak,
+            @RequestParam("cover") MultipartFile coverFile) throws IOException {
         Buku buku = new Buku();
         buku.setTitle(title);
         buku.setAuthor(author);
@@ -64,6 +58,6 @@ public class BukuController {
         buku.setCover(coverFile.getBytes()); // simpan file ke BLOB
 
         bookRepository.save(buku);
-        return "redirect:/home";
+        return "redirect:/dashboard";
     }
 }

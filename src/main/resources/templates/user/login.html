@@ -27,6 +27,14 @@
             <div class="col-md-6 right-column">
                 <div class="login-box">
                     <h2 class="mb-4 d-flex justify-content-center">Login</h2>
+
+                    <!-- Notifikasi -->
+                    <div th:if="${param.error}" class="alert alert-danger" role="alert">
+                        Username atau password salah!
+                    </div>
+                    <div th:if="${param.registered}" class="alert alert-success" role="alert">
+                        Akun berhsail dibuat.
+                    </div>
                     <form th:action="@{/login}" method="post">
                         <div class="mb-3">
                             <label for="username">Username:</label>
