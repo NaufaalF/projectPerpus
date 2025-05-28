@@ -18,6 +18,8 @@
         .nav-item.active .nav-link { 
             color: #11007e; /* Warna teks saat aktif */
         }
+
+
     </style>
     <script src="https://kit.fontawesome.com/808ba9c7d8.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
@@ -59,7 +61,7 @@
 
     <div class="container-fluid" style="height: 90vh;">
         <div class="row" style="height: 90vh;">
-            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar border-end">
                <div class="position-sticky">
                     <ul class="nav flex-column p-3 gap-3">
                         <li class="nav-item d-flex align-items-center mb-2">
@@ -70,25 +72,25 @@
                         </li>
                         <li class="nav-item d-flex align-items-center mb-2">
                             <i class="fa-solid fa-bookmark logo-book fa-2x d-flex justify-content-center" style="color: #11007e; width: 50px;"></i>
-                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/peminjaman">
+                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/tabel-peminjaman">
                                 Peminjaman
                             </a>
                         </li>
                         <li class="nav-item d-flex align-items-center mb-2">
                             <i class="fa-solid fa-users logo-book fa-2x d-flex justify-content-center" style="color: #11007e; width: 50px;"></i>
-                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/user">
+                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/tabel-user">
                                 User
                             </a>
                         </li>
                         <li class="nav-item d-flex align-items-center mb-2">
                             <i class="fa-solid fa-user-tie logo-book fa-2x d-flex justify-content-center" style="color: #11007e; width: 50px;"></i>
-                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/admin">
+                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/tabel-admin">
                                 Admin
                             </a>
                         </li>
                         <li class="nav-item d-flex align-items-center mb-2">
                             <i class="fa-solid fa-user logo-book fa-2x d-flex justify-content-center" style="color: #11007e; width: 50px;"></i>
-                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/anggota">
+                            <a class="nav-link p-1 fw-bold" style="color: #11007e; font-size: large;" href="/tabel-anggota">
                                 Anggota
                             </a>
                         </li>
@@ -126,6 +128,7 @@
                                 <th>Lokasi Rak</th>
                                 <th>Ketersediaan</th>
                                 <th>Cover</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -144,17 +147,23 @@
                                 <td th:text="${buku.lokasi_rak}"></td>
                                 <td>
                                     <span th:text="${buku.available} ? 'Tersedia' : 'Tidak Tersedia'" 
-                                        th:classappend="${buku.available} ? 'text-success' : 'text-danger'"></span>
+                                    th:classappend="${buku.available} ? 'text-success' : 'text-danger'"></span>
                                 </td>
                                 <td>
                                     <img th:src="@{'/cover/' + ${buku.id}}" alt="Cover" width="60" height="90" />
                                 </td>
+                                <td>"Edit dan Hapus"</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            </main>
+                <a href="/upload">
+                    <div class="button-upload">
+                        <i class="fa-solid fa-plus fa-2x text-white"></i>
+                    </div>
 
+                </a>
+            </main>
         </div>
     </div>
 </body>

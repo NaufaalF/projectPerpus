@@ -34,13 +34,13 @@ public class BukuController {
     public String tampilkanTabelBuku(Model model) {
         List<Buku> daftarBuku = bookRepository.findAll();
         model.addAttribute("daftarBuku", daftarBuku);
-        return "admin/buku"; // ganti dengan nama file HTML kamu
+        return "admin/tabel buku/buku"; // ganti dengan nama file HTML kamu
     }
 
 
     @GetMapping("/upload")
     public String showUploadForm() {
-        return "admin/uploadBuku"; 
+        return "admin/tabel buku/uploadBuku"; 
     }
 
     // POST request untuk menambahkan buku

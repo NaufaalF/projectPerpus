@@ -9,22 +9,35 @@
 </head>
 <body style="background-color: 		#f0ecec;">
     <script src="https://kit.fontawesome.com/808ba9c7d8.js" crossorigin="anonymous"></script>
-    <nav class="navbar navbar-expand-lg navbar-light py-3" style="background-color: #55c300;">
+    <nav class="navbar navbar-expand-lg navbar-light py-3" style="background-color: #11007e;">
         <div class="container-fluid px-5">
-            <a href="/home">
-                <i class="fa-solid fa-book logo-book"></i>
+            <a href="#">
+                <i class="fa-solid fa-chart-line logo-book"></i>
             </a>
-            <h3 class="text-white fw-bold" style="margin-bottom: 0px;" href="#">Perpustakaan</h3>
+            <h3 class="text-white fw-bold" style="margin-bottom: 0px;">Dashboard</h3>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="/peminjaman">Peminjaman</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="/pengembalian">Pengembalian</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span th:if="${#authorization.expression('isAuthenticated()')}"
+                                th:text="${#authentication.name}">Profil</span>
+                            <span th:if="${#authorization.expression('isAnonymous()')}">Profil</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profilDropdown">
+                            <!-- Jika belum login -->
+                            <li th:if="${#authorization.expression('isAnonymous()')}">
+                                <a class="dropdown-item" href="/login">Login</a>
+                            </li>
+                            
+                            <li th:if="${#authorization.expression('isAuthenticated()')}">
+                                <form th:action="@{/logout}" method="post">
+                                    <button class="dropdown-item" type="submit">Logout</button>
+                                </form>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -33,9 +46,15 @@
 
     <div class="container mt-5 mb-5 border-0 shadow-sm container-detail-buku" style="width: 50%; height: 660px;">
         <div class="row" style="margin: 10px;">
-            <div class="col-md-12 text-center mb-3">
-                <h2 class="fw-bold">Upload Buku</h2>
-                <p>Silakan isi informasi buku yang ingin diupload.</p>
+            <div class="container d-flex justify-content-center mb-5">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <i class="fa-solid fa-book logo-book fa-4x" style="color: #11007e; width: 50px;"></i>
+                    </div>
+                    <div class="col" style="max-width:max-content;">
+                        <h1 class="fw-bold" style="padding-bottom: 0; color: #11007e;">Upload Buku</h1>
+                    </div>
+                </div>
             </div>
 
             <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
@@ -96,7 +115,8 @@
                 </div>
 
                 <div class="text-end">
-                    <button type="submit" class="btn btn-primary">Upload Buku</button>
+                    <a href="/dashboard" class="btn btn-danger text-white">Cancel</a>
+                    <button type="submit" class="btn text-white" style="background-color: #11007e;">Upload Buku</button>
                 </div>
             </form>
         </div>
