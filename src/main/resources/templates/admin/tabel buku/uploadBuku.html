@@ -48,88 +48,84 @@
         </div>
     </nav>
 
-    <div class="container mt-5 mb-5 border-0 shadow-sm container-detail-buku" style="width: 50%; height: 660px;">
-        <div class="row" style="margin: 10px;">
-            <div class="container d-flex justify-content-center mb-5">
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <i class="fa-solid fa-book logo-book fa-4x" style="color: #11007e; width: 50px;"></i>
-                    </div>
-                    <div class="col" style="max-width:max-content;">
-                        <h1 class="fw-bold" style="padding-bottom: 0; color: #11007e;">Upload Buku</h1>
+    <div class="container d-flex align-items-center" style="height: auto;">
+        <div class="container mt-5 mb-5 border-0 shadow-sm container-upload-buku">
+            <div class="row" style="margin: 10px;">
+                <div class="container d-flex justify-content-center mb-5">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <i class="fa-solid fa-book logo-book fa-4x" style="color: #11007e; width: 50px;"></i>
+                        </div>
+                        <div class="col" style="max-width:max-content;">
+                            <h1 class="fw-bold" style="padding-bottom: 0; color: #11007e;">Upload Buku</h1>
+                        </div>
                     </div>
                 </div>
+    
+                <form th:action="@{/upload-buku}" method="post" enctype="multipart/form-data">
+                    <div class="mb-3 row">
+                        <label for="title" class="col-sm-3 col-form-label fw-bold">Judul Buku</label>
+                        <div class="col-sm-9">
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Judul" required>
+                        </div>
+                    </div>
+    
+                    <div class="mb-3 row">
+                        <label for="author" class="col-sm-3 col-form-label fw-bold">Penulis</label>
+                        <div class="col-sm-9">
+                        <input type="text" class="form-control" id="author" name="author" placeholder="Penulis" required>
+                        </div>
+                    </div>
+    
+                    <div class="mb-3 row">
+                        <label for="publisher" class="col-sm-3 col-form-label fw-bold">Penerbit</label>
+                        <div class="col-sm-9">
+                        <input type="text" class="form-control" id="publisher" name="publisher" placeholder="Penerbit" required>
+                        </div>
+                    </div>
+    
+                    <div class="mb-3 row">
+                        <label for="year" class="col-sm-3 col-form-label fw-bold">Tahun Terbit</label>
+                        <div class="col-sm-9">
+                        <input type="text" class="form-control" id="year" name="year" placeholder="Tahun Terbit" required>
+                        </div>
+                    </div>
+    
+                    <div class="mb-3 row">
+                        <label for="category" class="col-sm-3 col-form-label fw-bold">Kategori</label>
+                        <div class="col-sm-9">
+                        <input type="text" class="form-control" id="category" name="category" placeholder="Kategori" required>
+                        </div>
+                    </div>
+    
+                    <div class="mb-3 row">
+                        <label for="lokasi_rak" class="col-sm-3 col-form-label fw-bold">Lokasi Rak</label>
+                        <div class="col-sm-9">
+                        <input type="text" class="form-control" id="lokasi_rak" name="lokasi_rak" placeholder="Lokasi Rak" required>
+                        </div>
+                    </div>
+    
+                    <div class="mb-3 row">
+                        <label for="description" class="col-sm-3 col-form-label fw-bold">Deskripsi</label>
+                        <div class="col-sm-9">
+                        <textarea class="form-control" id="description" name="description" placeholder="Deskripsi" rows="3" required></textarea>
+                        </div>
+                    </div>
+    
+                    <div class="mb-3 row">
+                        <label for="cover" class="col-sm-3 col-form-label fw-bold">Cover</label>
+                        <div class="col-sm-9">
+                        <input type="file" class="form-control" id="cover" name="cover" accept="image/*" required>
+                        </div>
+                    </div>
+    
+                    <div class="text-end">
+                        <a href="/dashboard" class="btn btn-danger text-white">Cancel</a>
+                        <button type="submit" class="btn text-white" style="background-color: #11007e;">Upload Buku</button>
+                    </div>
+                </form>
             </div>
-
-            <form th:action="@{/upload-buku}" method="post" enctype="multipart/form-data">
-                <div class="mb-3 row">
-                    <label for="title" class="col-sm-3 col-form-label fw-bold">Judul Buku</label>
-                    <div class="col-sm-9">
-                    <input type="text" class="form-control" id="title" name="title" placeholder="Judul" required>
-                    </div>
-                </div>
-
-                <div class="mb-3 row">
-                    <label for="author" class="col-sm-3 col-form-label fw-bold">Penulis</label>
-                    <div class="col-sm-9">
-                    <input type="text" class="form-control" id="author" name="author" placeholder="Penulis" required>
-                    </div>
-                </div>
-
-                <div class="mb-3 row">
-                    <label for="publisher" class="col-sm-3 col-form-label fw-bold">Penerbit</label>
-                    <div class="col-sm-9">
-                    <input type="text" class="form-control" id="publisher" name="publisher" placeholder="Penerbit" required>
-                    </div>
-                </div>
-
-                <div class="mb-3 row">
-                    <label for="year" class="col-sm-3 col-form-label fw-bold">Tahun Terbit</label>
-                    <div class="col-sm-9">
-                    <input type="text" class="form-control" id="year" name="year" placeholder="Tahun Terbit" required>
-                    </div>
-                </div>
-
-                <div class="mb-3 row">
-                    <label for="category" class="col-sm-3 col-form-label fw-bold">Kategori</label>
-                    <div class="col-sm-9">
-                    <input type="text" class="form-control" id="category" name="category" placeholder="Kategori" required>
-                    </div>
-                </div>
-
-                <div class="mb-3 row">
-                    <label for="lokasi_rak" class="col-sm-3 col-form-label fw-bold">Lokasi Rak</label>
-                    <div class="col-sm-9">
-                    <input type="text" class="form-control" id="lokasi_rak" name="lokasi_rak" placeholder="Lokasi Rak" required>
-                    </div>
-                </div>
-
-                <div class="mb-3 row">
-                    <label for="description" class="col-sm-3 col-form-label fw-bold">Deskripsi</label>
-                    <div class="col-sm-9">
-                    <textarea class="form-control" id="description" name="description" placeholder="Deskripsi" rows="3" required></textarea>
-                    </div>
-                </div>
-
-                <div class="mb-3 row">
-                    <label for="cover" class="col-sm-3 col-form-label fw-bold">Cover</label>
-                    <div class="col-sm-9">
-                    <input type="file" class="form-control" id="cover" name="cover" accept="image/*" required>
-                    </div>
-                </div>
-
-                <div class="text-end">
-                    <a href="/dashboard" class="btn btn-danger text-white">Cancel</a>
-                    <button type="submit" class="btn text-white" style="background-color: #11007e;">Upload Buku</button>
-                </div>
-            </form>
         </div>
     </div>
-    <footer>
-        <div class="container-fluid bg-light text-center py-3">
-            <p class="mb-0">© 2023 Bangla Library. All rights reserved.</p>
-            <p>Created by <a href="#" class="text-decoration-none">Your Name</a></p>
-        </div>
-    </footer>
 </body>
 </html>

@@ -34,7 +34,7 @@ public class UserController {
         // Di sini Anda bisa mengambil daftar user dari repository jika diperlukan
         List<User> daftarUser = userRepository.findAll();
         model.addAttribute("daftarUser", daftarUser);
-        return "admin/user";
+        return "admin/tabel user/user";
     }
 
     @GetMapping("/tabel-anggota")

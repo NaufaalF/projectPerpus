@@ -15,6 +15,8 @@ import com.example.projek_pbo.model.Anggota;
 import com.example.projek_pbo.repository.AnggotaRepository;
 import com.example.projek_pbo.model.Buku;
 import com.example.projek_pbo.repository.BukuRepository;
+import com.example.projek_pbo.model.Peminjaman;
+import com.example.projek_pbo.repository.PeminjamanRepository;
 
 import java.util.List;
 
@@ -26,21 +28,31 @@ public class DashboardController {
     private final AdminRepository adminRepository;
     private final AnggotaRepository anggotaRepository;
     private final BukuRepository bookRepository;
+    private final PeminjamanRepository peminjamanRepository;
 
     public DashboardController( 
         UserRepository userRepository,
         AdminRepository adminRepository,
         AnggotaRepository anggotaRepository,
-        BukuRepository bookRepository) {
+        BukuRepository bookRepository,
+        PeminjamanRepository peminjamanRepository) {
         this.userRepository = userRepository;
         this.adminRepository = adminRepository;
         this.anggotaRepository = anggotaRepository;
         this.bookRepository = bookRepository;
+        this.peminjamanRepository = peminjamanRepository;
     }
 
     @GetMapping("/dashboard")
     public String dashboardPage(Model model) {
-        // Menampilkan total 
+        // Menampilkan total
+
+        long totalPinjam = peminjamanRepository.count();
+        model.addAttribute("totalPinjam", totalPinjam);
+        List<Peminjaman> peminjamanList = peminjamanRepository.findAll();
+        model.addAttribute("peminjaman", peminjamanList != null ? peminjamanList : List.of());
+        
+
         long totalUser = userRepository.count();
         model.addAttribute("totalUser", totalUser);
         List<User> userList = userRepository.findAll();

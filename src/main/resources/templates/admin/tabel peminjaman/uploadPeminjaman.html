@@ -1,27 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload buku</title>
+    <title>Upload Peminjaman</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body style="background-color: 		#f0ecec;">
     <script src="https://kit.fontawesome.com/808ba9c7d8.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
     <nav class="navbar navbar-expand-lg navbar-light py-3" style="background-color: #11007e;">
         <div class="container-fluid px-5">
             <a href="/dashboard">
                 <i class="fa-solid fa-chart-line logo-book"></i>
             </a>
             <h3 class="text-white fw-bold" style="margin-bottom: 0px;">Dashboard</h3>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="profilDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             <span th:if="${#authorization.expression('isAuthenticated()')}"
                                 th:text="${#authentication.name}">Profil</span>
                             <span th:if="${#authorization.expression('isAnonymous()')}">Profil</span>
@@ -48,84 +53,80 @@
         </div>
     </nav>
 
-    <div class="container d-flex align-items-center" style="height: auto;">
-        <div class="container mt-5 mb-5 border-0 shadow-sm container-upload-buku">
+    <div class="container d-flex align-items-center" style="height: 90vh;">
+        <div class="container border-0 shadow-sm container-upload-peminjaman">
             <div class="row" style="margin: 10px;">
                 <div class="container d-flex justify-content-center mb-5">
                     <div class="row align-items-center">
                         <div class="col-auto">
-                            <i class="fa-solid fa-book logo-book fa-4x" style="color: #11007e; width: 50px;"></i>
+                            <i class="fa-solid fa-bookmark logo-book fa-4x" style="color: #11007e; width: 50px;"></i>
                         </div>
                         <div class="col" style="max-width:max-content;">
-                            <h1 class="fw-bold" style="padding-bottom: 0; color: #11007e;">Upload Buku</h1>
+                            <h1 class="fw-bold" style="padding-bottom: 0; color: #11007e;">Upload Peminjaman</h1>
                         </div>
                     </div>
                 </div>
-    
-                <form th:action="@{/upload-buku}" method="post" enctype="multipart/form-data">
+
+                <!-- Menampilkan pesan error -->
+                <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                    <p th:text="${errorMessage}"></p>
+                </div>
+                <!-- Menampilkan pesan sukses -->
+                <div th:if="${successMessage}" class="alert alert-success" role="alert">
+                    <p th:text="${successMessage}"></p>
+                </div>
+
+                <form th:action="@{/upload-peminjaman}" method="post" enctype="multipart/form-data">
                     <div class="mb-3 row">
-                        <label for="title" class="col-sm-3 col-form-label fw-bold">Judul Buku</label>
+                        <label for="anggota_id" class="col-sm-3 col-form-label fw-bold">ID Anggota</label>
                         <div class="col-sm-9">
-                        <input type="text" class="form-control" id="title" name="title" placeholder="Judul" required>
+                            <select class="form-control" id="anggota_id" name="anggota_id" required>
+                                <option value="" disabled selected>Pilih Anggota</option>
+                                <tr th:each="anggota : ${daftarAnggota}">
+                                    <option th:value="${anggota.id}" th:text="${anggota.id + ' - ' + anggota.name}">
+                                    </option>
+                                </tr>
+                            </select>
                         </div>
                     </div>
-    
+
                     <div class="mb-3 row">
-                        <label for="author" class="col-sm-3 col-form-label fw-bold">Penulis</label>
+                        <label for="buku_id" class="col-sm-3 col-form-label fw-bold">ID Buku</label>
                         <div class="col-sm-9">
-                        <input type="text" class="form-control" id="author" name="author" placeholder="Penulis" required>
+                            <select class="form-control" id="buku_id" name="buku_id" required>
+                                <option value="" disabled selected>Pilih Buku</option>
+                                <tr th:each="buku : ${daftarBuku}">
+                                    <option th:value="${buku.id}" th:text="${buku.id + ' - ' + buku.title}"></option>
+                                </tr>
+                            </select>
                         </div>
                     </div>
-    
+
                     <div class="mb-3 row">
-                        <label for="publisher" class="col-sm-3 col-form-label fw-bold">Penerbit</label>
+                        <label for="tanggal_pinjam" class="col-sm-3 col-form-label fw-bold">Tanggal Pinjam</label>
                         <div class="col-sm-9">
-                        <input type="text" class="form-control" id="publisher" name="publisher" placeholder="Penerbit" required>
+                            <input type="date" class="form-control" id="tanggal_pinjam" name="tanggal_pinjam" required>
                         </div>
                     </div>
-    
+
                     <div class="mb-3 row">
-                        <label for="year" class="col-sm-3 col-form-label fw-bold">Tahun Terbit</label>
+                        <label for="tanggal_kembali" class="col-sm-3 col-form-label fw-bold">Tanggal Kembali</label>
                         <div class="col-sm-9">
-                        <input type="text" class="form-control" id="year" name="year" placeholder="Tahun Terbit" required>
+                            <input type="date" class="form-control" id="tanggal_kembali" name="tanggal_kembali"
+                                required>
                         </div>
                     </div>
-    
-                    <div class="mb-3 row">
-                        <label for="category" class="col-sm-3 col-form-label fw-bold">Kategori</label>
-                        <div class="col-sm-9">
-                        <input type="text" class="form-control" id="category" name="category" placeholder="Kategori" required>
-                        </div>
-                    </div>
-    
-                    <div class="mb-3 row">
-                        <label for="lokasi_rak" class="col-sm-3 col-form-label fw-bold">Lokasi Rak</label>
-                        <div class="col-sm-9">
-                        <input type="text" class="form-control" id="lokasi_rak" name="lokasi_rak" placeholder="Lokasi Rak" required>
-                        </div>
-                    </div>
-    
-                    <div class="mb-3 row">
-                        <label for="description" class="col-sm-3 col-form-label fw-bold">Deskripsi</label>
-                        <div class="col-sm-9">
-                        <textarea class="form-control" id="description" name="description" placeholder="Deskripsi" rows="3" required></textarea>
-                        </div>
-                    </div>
-    
-                    <div class="mb-3 row">
-                        <label for="cover" class="col-sm-3 col-form-label fw-bold">Cover</label>
-                        <div class="col-sm-9">
-                        <input type="file" class="form-control" id="cover" name="cover" accept="image/*" required>
-                        </div>
-                    </div>
-    
+
+
                     <div class="text-end">
-                        <a href="/dashboard" class="btn btn-danger text-white">Cancel</a>
-                        <button type="submit" class="btn text-white" style="background-color: #11007e;">Upload Buku</button>
+                        <a href="/tabel-peminjaman" class="btn btn-danger text-white">Cancel</a>
+                        <button type="submit" class="btn text-white" style="background-color: #11007e;">Upload
+                            Buku</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </body>
+
 </html>

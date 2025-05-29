@@ -43,12 +43,6 @@
   margin-right: 10px;
 }
 
-.container-detail-buku{
-    background-color: #fff;
-    padding-top: 10px;
-    height: 85vh;   
-    width: 85%;
-}
 
 /* ==================================== Page Login ==================================== */
 .row.full-height {
@@ -103,4 +97,23 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* ==================================== Page Tabel Peminjaman ==================================== */
+.container-upload-peminjaman{
+    background-color: #fff;
+    padding-top: 10px;
+    width: 50%; 
+    height: auto;
+    padding: 20px;
+    
+}
+
+/* ==================================== Page Tabel Buku ==================================== */
+.container-upload-buku{
+    background-color: #fff;
+    padding-top: 10px;
+    width: 50%; 
+    height: auto;
+    padding: 20px;
 }
