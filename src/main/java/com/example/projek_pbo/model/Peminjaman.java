@@ -3,6 +3,8 @@ package com.example.projek_pbo.model;
 import org.springframework.cglib.core.Local;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,5 +34,13 @@ public class Peminjaman {
     private LocalDate tanggal_pinjam;
     private LocalDate tanggal_kembali;
 
-    
+    public enum Status { // Ubah nama enum menjadi Status
+        MENUNGGU,
+        DIPINJAM,
+        SELESAI
+    }
+
+    @Enumerated(EnumType.STRING)
+    private Status status_peminjaman; // Ubah tipe menjadi Status
 }
+

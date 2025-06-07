@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title th:text="'Detail Buku: ' + ${buku.title}">Detail Buku</title>
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <script src="https://kit.fontawesome.com/808ba9c7d8.js" crossorigin="anonymous"></script>
 </head>
+
 <body style="background-color: 		#f0ecec;">
     <!-- Bootstrap Bundle with Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -17,19 +19,21 @@
                 <i class="fa-solid fa-book logo-book"></i>
             </a>
             <h3 class="text-white fw-bold" style="margin-bottom: 0px;" href="#">Perpustakaan</h3>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav gap-3">
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="/peminjaman">Peminjaman</a>
+                        <a class="nav-link text-white" href="/home/peminjaman">Peminjaman</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="/pengembalian">Pengembalian</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="profilDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             <span th:if="${#authorization.expression('isAuthenticated()')}"
                                 th:text="${#authentication.name}">Profil</span>
                             <span th:if="${#authorization.expression('isAnonymous()')}">Profil</span>
@@ -54,11 +58,19 @@
     <div class="container mt-5 mb-5 border-0 shadow-sm container-detail-buku">
         <div class="row p-3">
             <div class="col-md-4" style="width: 380px;">
-                <img th:src="@{'/cover/' + ${buku.id}}" class="img-fluid rounded" alt="Cover Buku" style="width: 380px; height: 530px;">
+                <img th:src="@{'/cover/' + ${buku.id}}" class="img-fluid rounded" alt="Cover Buku"
+                    style="width: 380px; height: 530px;">
                 <div class="d-grid gap-2 mt-3">
-                    <button class="btn text-white" type="button" style="background-color: #55c300;">
-                        <i class="fa-solid fa-bookmark gap-2"></i>
-                        Pinjam</button>
+                    <button type="button" class="btn text-white" style="background-color: #55c300;" id="pinjamBtn"
+                        th:data-available="${buku.available ? 1 : 0}" th:aria-disabled="${!buku.available}"
+                        th:disabled="${!buku.available}" th:if="${buku.available}" data-bs-toggle="modal"
+                        data-bs-target="#pinjamModal">
+                        <i class="fa-solid fa-bookmark gap-2" id="logo-pinjam"></i>
+                        Pinjam
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="pinjamBtn" th:if="${!buku.available}" disabled>
+                        Buku tidak tersedia
+                    </button>
                 </div>
             </div>
             <div class="col-md-8">
@@ -74,11 +86,80 @@
         </div>
     </div>
 
+    <div class="modal fade" id="pinjamModal" tabindex="-1" aria-labelledby="pinjamModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 shadow-sm">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold" id="pinjamModalLabel">Konfirmasi Peminjaman</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body text-secondary fs-5">
+                    Apakah Anda yakin ingin meminjam buku ini?
+                </div>
+                <form th:action="@{/tambah-peminjaman-user}" method="post">
+                    <input type="hidden" name="buku_id" th:value="${buku.id}" />
+                    <input type="hidden" name="anggota_username" th:value="${#authentication.name}" />
+                    <input type="hidden" name="tanggal_pinjam"
+                        th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" />
+                    <input type="hidden" name="status_peminjaman" th:value="MENUNGGU">
+                    <!-- Anda bisa tambahkan input tanggal_kembali jika perlu -->
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary rounded-3" id="confirmPinjamBtn">Ya,
+                            Pinjam</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true"
+        th:if="${idPeminjaman != null}" th:classappend="' show d-block'" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 shadow-sm">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold" id="successModalLabel">Peminjaman Berhasil</h5>
+                </div>
+                <div class="modal-body text-secondary fs-5">
+                    ID peminjaman Anda adalah <strong th:text="${idPeminjaman}"></strong>. Beri tahu pegawai perpustakaan untuk menkonfirmasi peminjaman
+                </div>
+                <div class="modal-footer border-0">
+                    <a href="#" class="btn btn-primary rounded-3"
+                        onclick="window.location.href = window.location.pathname">OK</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <footer>
         <div class="container-fluid bg-light text-center py-3">
             <p class="mb-0">© 2023 Bangla Library. All rights reserved.</p>
             <p>Created by <a href="#" class="text-decoration-none">Your Name</a></p>
         </div>
     </footer>
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const pinjamBtn = document.getElementById('pinjamBtn');
+            const available = parseInt(pinjamBtn.dataset.available, 10);
+            const logo_pinjam = document.getElementById('logo-pinjam');
+            // Disable pinjam button if availability is zero or less
+            if (available = 0) {
+                pinjamBtn.disabled = true;
+                pinjamBtn.setAttribute('aria-disabled', 'true');
+                pinjamBtn.removeAttribute('data-bs-toggle'); // disable modal trigger
+                pinjamBtn.removeAttribute('data-bs-target');
+                pinjamBtn.textContent = 'Buku tidak tersedia';
+
+            }
+            document.getElementById('confirmPinjamBtn').addEventListener('click', () => {
+                // Placeholder action for confirmation
+                alert('Peminjaman berhasil dikonfirmasi!');
+                const pinjamModal = bootstrap.Modal.getInstance(document.getElementById('pinjamModal'));
+                pinjamModal.hide();
+            });
+        });
+    </script> -->
 </body>
+
 </html>

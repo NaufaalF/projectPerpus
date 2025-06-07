@@ -1,25 +1,28 @@
 .ratio-2x3 {
-  position: relative;
-  width: 100%;
-  padding-top: 0%; /* (3 / 2) * 100% = 150% for height */
+    position: relative;
+    width: 100%;
+    padding-top: 0%;
+    /* (3 / 2) * 100% = 150% for height */
 }
 
-.ratio-2x3 > img {
-  /* position: absolute; */
-  /* top: 0; left: 0; width: 100%; height: 100%; */
-  /* object-fit: cover; */
-  /* border-radius: .5rem; */
-  max-height: 250px;
-  /* max-width: 120px; */
-  margin: 0 auto;
+.ratio-2x3>img {
+    /* position: absolute; */
+    /* top: 0; left: 0; width: 100%; height: 100%; */
+    /* object-fit: cover; */
+    /* border-radius: .5rem; */
+    max-height: 250px;
+    /* max-width: 120px; */
+    margin: 0 auto;
 }
 
 .book-container {
-    transition: transform 0.3s ease; /* Durasi dan efek transisi */
+    transition: transform 0.3s ease;
+    /* Durasi dan efek transisi */
 }
 
 .book-container:hover {
-    transform: scale(1.05); /* Membesarkan elemen 5% */
+    transform: scale(1.05);
+    /* Membesarkan elemen 5% */
     cursor: pointer;
 }
 
@@ -32,15 +35,15 @@
     opacity: 50%;
 }
 
-.library-image-container{
+.library-image-container {
     background-color: black;
 
 }
 
 .logo-book {
-  color: #fff;
-  font-size: 2.5rem;
-  margin-right: 10px;
+    color: #fff;
+    font-size: 2.5rem;
+    margin-right: 10px;
 }
 
 
@@ -49,6 +52,7 @@
     height: 100vh;
     margin: 0;
 }
+
 .left-column {
     background-image: url('/images/library-2.jpg');
     background-size: cover;
@@ -57,6 +61,7 @@
     height: 100%;
     color: white;
 }
+
 .left-column-content {
     height: 100%;
     display: flex;
@@ -67,26 +72,29 @@
     padding: 0px;
     margin: 0px;
 }
+
 .right-column {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
-    background-color: #55c300; /* contoh hijau terang */
+    background-color: #55c300;
+    /* contoh hijau terang */
 }
+
 .login-box {
     background: white;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 400px;
 }
 
 
 /* ==================================== Page Tabel (Dashboard) ==================================== */
-.button-upload{
-    background-color:#11007e;
+.button-upload {
+    background-color: #11007e;
     padding: 15px;
     border-radius: 100%;
     position: absolute;
@@ -100,20 +108,89 @@
 }
 
 /* ==================================== Page Tabel Peminjaman ==================================== */
-.container-upload-peminjaman{
+.container-upload-peminjaman {
     background-color: #fff;
     padding-top: 10px;
-    width: 50%; 
+    width: 50%;
     height: auto;
     padding: 20px;
-    
+
 }
 
 /* ==================================== Page Tabel Buku ==================================== */
-.container-upload-buku{
+.container-upload-buku {
     background-color: #fff;
     padding-top: 10px;
-    width: 50%; 
+    width: 50%;
     height: auto;
     padding: 20px;
 }
+
+/* ==================================== Page Detail Buku ==================================== */
+.container-detail-buku {
+    background: #fff;
+    max-width: 1200px;
+    /* margin: 0 auto;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 2rem; */
+}
+
+/* Override Bootstrap primary button with your green */
+.btn-primary {
+    background-color: #55c300;
+    border-color: #55c300;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover:not(:disabled),
+.btn-primary:focus:not(:disabled) {
+    background-color: #409000;
+    border-color: #409000;
+    box-shadow: none;
+}
+
+/* Disabled button style */
+.btn-primary:disabled,
+.btn-primary[disabled] {
+    background-color: #a6c97a;
+    border-color: #a6c97a;
+    cursor: not-allowed;
+    opacity: 0.7;
+    box-shadow: none;
+    color: #e9f1d3;
+}
+
+/* ==================================== Page Riwayat Peminjaman ==================================== */
+.release-card {
+        background-color: #ffffff;
+        border-bottom: 1px solid #ddd;
+        padding: 15px 0;
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .release-cover img {
+        width: 60px;
+        height: 90px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-right: 15px;
+    }
+    .release-info {
+        flex-grow: 1;
+    }
+    .release-right {
+        text-align: right;
+        min-width: 100px;
+    }
+    .release-title {
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 3px;
+    }
+    .release-subtitle {
+        color: gray;
+        font-size: 14px;
+    }

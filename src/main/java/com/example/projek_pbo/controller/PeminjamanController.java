@@ -1,15 +1,16 @@
 package com.example.projek_pbo.controller;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.ui.Model;
 
-import java.io.IOException;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,12 +23,13 @@ import com.example.projek_pbo.repository.BukuRepository;
 
 @Controller
 public class PeminjamanController {
-    
+
     private final PeminjamanRepository peminjamanRepository;
     private final AnggotaRepository anggotaRepository;
     private final BukuRepository bukuRepository;
 
-    public PeminjamanController(PeminjamanRepository peminjamanRepository, AnggotaRepository anggotaRepository, BukuRepository bukuRepository) {
+    public PeminjamanController(PeminjamanRepository peminjamanRepository, AnggotaRepository anggotaRepository,
+            BukuRepository bukuRepository) {
         this.peminjamanRepository = peminjamanRepository;
         this.anggotaRepository = anggotaRepository;
         this.bukuRepository = bukuRepository;
@@ -35,61 +37,128 @@ public class PeminjamanController {
 
     @GetMapping("/tabel-peminjaman")
     public String tampilkanTabelPeminjaman(Model model) {
-        // Di sini Anda bisa mengambil daftar peminjaman dari repository jika diperlukan
         List<Peminjaman> daftarPeminjaman = peminjamanRepository.findAll();
         model.addAttribute("daftarPeminjaman", daftarPeminjaman);
         return "admin/tabel peminjaman/peminjaman";
     }
-    
+
     @GetMapping("/upload-peminjaman")
     public String showUploadForm(Model model) {
-        // Ambil daftar anggota dan buku untuk ditampilkan di form
         List<Anggota> daftarAnggota = anggotaRepository.findAll();
         List<Buku> daftarBuku = bukuRepository.findAll();
-        
+
         model.addAttribute("daftarAnggota", daftarAnggota);
         model.addAttribute("daftarBuku", daftarBuku);
-        
+
         return "admin/tabel peminjaman/uploadPeminjaman";
     }
 
-    // POST request untuk menambahkan peminjaman
     @PostMapping("/upload-peminjaman")
-public String uploadPeminjaman(@RequestParam("anggota_id") Long anggota_id,
-                              @RequestParam("buku_id") Long buku_id,
-                              @RequestParam("tanggal_pinjam") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate tanggal_pinjam,
-                              @RequestParam("tanggal_kembali") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate tanggal_kembali,
-                              RedirectAttributes redirectAttributes) {
+    public String uploadPeminjaman(@RequestParam("anggota_id") Long anggotaId,
+            @RequestParam("buku_id") Long bukuId,
+            @RequestParam("tanggal_pinjam") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate tanggalPinjam,
+            @RequestParam("tanggal_kembali") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate tanggalKembali,
+            @RequestParam("status_peminjaman") String statusPeminjaman,
+            RedirectAttributes redirectAttributes) {
 
-    Anggota anggota = anggotaRepository.findById(anggota_id)
-            .orElseThrow(() -> new IllegalArgumentException("Invalid anggota ID: " + anggota_id));
+        Anggota anggota = anggotaRepository.findById(anggotaId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid anggota ID: " + anggotaId));
 
-    Buku buku = bukuRepository.findById(buku_id)
-            .orElseThrow(() -> new IllegalArgumentException("Invalid buku ID: " + buku_id));
+        Buku buku = bukuRepository.findById(bukuId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid buku ID: " + bukuId));
 
-    // Cek status buku
-    if (!buku.isAvailable()) {
-        redirectAttributes.addFlashAttribute("errorMessage", "Buku tidak tersedia untuk dipinjam.");
-        return "redirect:/upload-peminjaman"; // Kembali ke form jika tidak tersedia
+        // Cek status buku
+        if (!buku.isAvailable()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Buku tidak tersedia untuk dipinjam.");
+            return "redirect:/upload-peminjaman"; // Kembali ke form jika tidak tersedia
+        }
+
+        // Update status buku jadi tidak tersedia
+        buku.setAvailable(false);
+        bukuRepository.save(buku);
+
+        // Simpan data peminjaman
+        Peminjaman peminjaman = new Peminjaman();
+        peminjaman.setAnggota(anggota);
+        peminjaman.setBuku(buku);
+        peminjaman.setTanggal_pinjam(tanggalPinjam);
+        peminjaman.setTanggal_kembali(tanggalKembali);
+        peminjaman.setStatus_peminjaman(Peminjaman.Status.valueOf(statusPeminjaman));
+
+        peminjamanRepository.save(peminjaman);
+
+        redirectAttributes.addFlashAttribute("successMessage", "Peminjaman berhasil disimpan.");
+        return "redirect:/tabel-peminjaman";
     }
 
-    // Update status buku jadi tidak tersedia
-    buku.setAvailable(false);
-    bukuRepository.save(buku);
+    @PostMapping("/peminjaman/konfirmasi/{id}")
+    public String konfirmasi(@PathVariable Long id) {
+        Peminjaman p = peminjamanRepository.findById(id).orElseThrow();
+        p.setStatus_peminjaman(Peminjaman.Status.DIPINJAM);
+        p.setTanggal_pinjam(LocalDate.now());
+        peminjamanRepository.save(p);
+        return "redirect:/tabel-peminjaman";
+    }
 
-    // Simpan data peminjaman
-    Peminjaman peminjaman = new Peminjaman();
-    peminjaman.setAnggota(anggota);
-    peminjaman.setBuku(buku);
-    peminjaman.setTanggal_pinjam(tanggal_pinjam);
-    peminjaman.setTanggal_kembali(tanggal_kembali);
+    @PostMapping("/peminjaman/selesai/{id}")
+    public String selesai(@PathVariable Long id) {
+        Peminjaman p = peminjamanRepository.findById(id).orElseThrow();
+        
+        // Set status peminjaman selesai dan tanggal kembali
+        p.setStatus_peminjaman(Peminjaman.Status.SELESAI);
+        p.setTanggal_kembali(LocalDate.now());
+        peminjamanRepository.save(p);
 
-    peminjamanRepository.save(peminjaman);
+        // Set buku menjadi available kembali
+        Buku buku = p.getBuku();
+        if (buku != null) {
+            buku.setAvailable(true);
+            bukuRepository.save(buku);
+        }
 
-    redirectAttributes.addFlashAttribute("successMessage", "Peminjaman berhasil disimpan.");
-    return "redirect:/tabel-peminjaman";
-}
+        return "redirect:/tabel-peminjaman";
+    }
 
+    // ============================== For User ==============================
 
+    @PostMapping("/tambah-peminjaman-user")
+    public String tambahPeminjaman(@RequestParam("buku_id") Long bukuId,
+            @RequestParam("anggota_username") String anggotaUsername,
+            @RequestParam("status_peminjaman") String statusPeminjaman,
+            RedirectAttributes redirectAttributes) {
 
+        Anggota anggota = anggotaRepository.findByUsername(anggotaUsername)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid anggota username: " + anggotaUsername));
+        Buku buku = bukuRepository.findById(bukuId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid buku ID: " + bukuId));
+
+        // Cek status buku
+        if (!buku.isAvailable()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Buku tidak tersedia untuk dipinjam.");
+            return "redirect:/detail-buku/" + bukuId; // Kembali ke detail buku jika tidak tersedia
+        }
+
+        Peminjaman peminjaman = new Peminjaman();
+        peminjaman.setBuku(buku);
+        peminjaman.setAnggota(anggota);
+        peminjaman.setStatus_peminjaman(Peminjaman.Status.valueOf(statusPeminjaman));
+
+        Peminjaman saved = peminjamanRepository.save(peminjaman);
+
+        // Update status buku jadi tidak tersedia
+        buku.setAvailable(false);
+        bukuRepository.save(buku);
+
+        redirectAttributes.addFlashAttribute("idPeminjaman", saved.getId());
+        return "redirect:/home/buku/" + bukuId;
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/home/peminjaman")
+    public String tampilkanRiwayatPinjam(Model model, Principal principal) {
+        String username = principal.getName();
+        List<Peminjaman> daftarPeminjaman = peminjamanRepository.findByAnggotaUsername(username);
+        model.addAttribute("daftarPeminjaman", daftarPeminjaman);
+        return "user/peminjamanUser";
+    }
 }

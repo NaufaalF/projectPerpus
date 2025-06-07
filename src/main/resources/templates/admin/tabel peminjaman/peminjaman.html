@@ -142,6 +142,7 @@
                                 <th>ID Buku</th>
                                 <th>Tanggal Pinjam</th>
                                 <th>Tanggal Kembali</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -152,7 +153,24 @@
                                 <td th:text="${peminjaman.buku.id + ' - ' + peminjaman.buku.title}"></td>
                                 <td th:text="${peminjaman.tanggal_pinjam}"></td>
                                 <td th:text="${peminjaman.tanggal_kembali}"></td>
-                                <td>"Edit dan Hapus"</td>
+                                <td th:text="${peminjaman.status_peminjaman}"></td>
+                                <td>
+                                    <!-- Tombol Konfirmasi jika status menunggu -->
+                                    <form th:if="${peminjaman.status_peminjaman.name() == 'MENUNGGU'}"
+                                        th:action="@{'/peminjaman/konfirmasi/' + ${peminjaman.id}}" method="post">
+                                        <button type="submit" class="btn btn-warning btn-sm">Konfirmasi</button>
+                                    </form>
+
+                                    <!-- Tombol Selesai jika status dipinjam -->
+                                    <form th:if="${peminjaman.status_peminjaman.name() == 'DIPINJAM'}"
+                                        th:action="@{'/peminjaman/selesai/' + ${peminjaman.id}}" method="post">
+                                        <button type="submit" class="btn btn-success btn-sm">Selesai Meminjam</button>
+                                    </form>
+
+                                    <!-- Tidak ada tombol jika status selesai -->
+                                    <span th:if="${peminjaman.status_peminjaman.name() == 'SELESAI'}">-</span>
+                                </td>
+
                             </tr>
                         </tbody>
                     </table>
