@@ -158,10 +158,12 @@ public class PeminjamanController {
     }
 
     @PostMapping("/peminjaman/konfirmasi/{id}")
-    public String konfirmasi(@PathVariable Long id) {
+    public String konfirmasi(@PathVariable Long id,
+            @RequestParam("tanggal_kembali") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate tanggalKembali) {
         Peminjaman p = peminjamanRepository.findById(id).orElseThrow();
         p.setStatus_peminjaman(Peminjaman.Status.DIPINJAM);
         p.setTanggal_pinjam(LocalDate.now());
+        p.setTanggal_kembali(tanggalKembali);
         peminjamanRepository.save(p);
         return "redirect:/tabel-peminjaman";
     }
@@ -172,7 +174,6 @@ public class PeminjamanController {
 
         // Set status peminjaman selesai dan tanggal kembali
         p.setStatus_peminjaman(Peminjaman.Status.SELESAI);
-        p.setTanggal_kembali(LocalDate.now());
         peminjamanRepository.save(p);
 
         // Set buku menjadi available kembali
