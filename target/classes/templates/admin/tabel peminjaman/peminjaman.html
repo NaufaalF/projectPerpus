@@ -163,10 +163,44 @@
                                 </td>
                                 <td>
                                     <!-- Tombol Konfirmasi jika status menunggu -->
-                                    <form th:if="${peminjaman.status_peminjaman.name() == 'MENUNGGU'}"
-                                        th:action="@{'/peminjaman/konfirmasi/' + ${peminjaman.id}}" method="post">
-                                        <button type="submit" class="btn btn-warning btn-sm">Konfirmasi</button>
-                                    </form>
+                                    <button type="button" class="btn btn-warning btn-sm"
+                                            th:if="${peminjaman.status_peminjaman.name() == 'MENUNGGU'}"
+                                            data-bs-toggle="modal"
+                                            th:data-bs-target="'#modalKonfirmasi' + ${peminjaman.id}">Konfirmasi
+                                    </button>
+
+                                    <!-- Modal Konfirmasi -->
+                                    <div class="modal fade"
+                                        th:id="'modalKonfirmasi' + ${peminjaman.id}"
+                                        tabindex="-1"
+                                        aria-labelledby="modalKonfirmasiLabel"
+                                        aria-hidden="true"
+                                        style="background-color: rgba(0,0,0,0.5);">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content rounded-4 shadow-sm">
+                                                <form th:action="@{'/peminjaman/konfirmasi/' + ${peminjaman.id}}" method="post">
+                                                    <div class="modal-header border-0">
+                                                        <h5 class="modal-title fw-bold" id="modalKonfirmasiLabel">Konfirmasi Peminjaman</h5>
+                                                    </div>
+                                                    <div class="modal-body text-secondary fs-5">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Tanggal Peminjaman</label>
+                                                            <input type="date" class="form-control" name="tanggal_pinjam" required>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Tanggal Pengembalian</label>
+                                                            <input type="date" class="form-control" name="tanggal_kembali"
+                                                                th:id="'tanggal_kembali' + ${peminjaman.id}" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer border-0">
+                                                        <button type="submit" class="btn btn-success rounded-3">Konfirmasi</button>
+                                                        <button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Batal</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <!-- Tombol Selesai jika status dipinjam -->
                                     <form th:if="${peminjaman.status_peminjaman.name() == 'DIPINJAM'}"
