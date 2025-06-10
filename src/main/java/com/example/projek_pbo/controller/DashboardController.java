@@ -30,12 +30,12 @@ public class DashboardController {
     private final BukuRepository bookRepository;
     private final PeminjamanRepository peminjamanRepository;
 
-    public DashboardController( 
-        UserRepository userRepository,
-        AdminRepository adminRepository,
-        AnggotaRepository anggotaRepository,
-        BukuRepository bookRepository,
-        PeminjamanRepository peminjamanRepository) {
+    public DashboardController(
+            UserRepository userRepository,
+            AdminRepository adminRepository,
+            AnggotaRepository anggotaRepository,
+            BukuRepository bookRepository,
+            PeminjamanRepository peminjamanRepository) {
         this.userRepository = userRepository;
         this.adminRepository = adminRepository;
         this.anggotaRepository = anggotaRepository;
@@ -51,7 +51,6 @@ public class DashboardController {
         model.addAttribute("totalPinjam", totalPinjam);
         List<Peminjaman> peminjamanList = peminjamanRepository.findAll();
         model.addAttribute("peminjaman", peminjamanList != null ? peminjamanList : List.of());
-        
 
         long totalUser = userRepository.count();
         model.addAttribute("totalUser", totalUser);

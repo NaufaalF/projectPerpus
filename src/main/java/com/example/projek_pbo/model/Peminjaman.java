@@ -9,7 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-// import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,13 +33,13 @@ public class Peminjaman {
     private LocalDate tanggal_pinjam;
     private LocalDate tanggal_kembali;
 
-    public enum Status { // Ubah nama enum menjadi Status
+    public enum Status {
         MENUNGGU,
         DIPINJAM,
         SELESAI
     }
 
     @Enumerated(EnumType.STRING)
-    private Status status_peminjaman; // Ubah tipe menjadi Status
+    private Status status_peminjaman;
 }
 

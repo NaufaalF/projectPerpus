@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,5 +60,52 @@ public class BukuController {
 
         bookRepository.save(buku);
         return "redirect:/dashboard";
+    }
+
+    @GetMapping("/edit-buku/{id}")
+    public String showEditForm(@PathVariable("id") Long id, Model model) {
+        Buku buku = bookRepository.findById(id).orElse(null);
+        if (buku == null) {
+            return "redirect:/tabel-buku";
+        }
+        model.addAttribute("buku", buku);
+        return "admin/tabel buku/editBuku";
+    }
+
+    @PostMapping("/edit-buku/{id}")
+    public String updateBuku(@PathVariable("id") Long id,
+            @RequestParam("title") String title,
+            @RequestParam("author") String author,
+            @RequestParam("publisher") String publisher,
+            @RequestParam("year") int year,
+            @RequestParam("category") String category,
+            @RequestParam("description") String description,
+            @RequestParam("lokasi_rak") String lokasi_rak,
+            @RequestParam(value = "cover", required = false) MultipartFile coverFile) throws IOException {
+        Buku buku = bookRepository.findById(id).orElse(null);
+        if (buku == null) {
+            return "redirect:/tabel-buku";
+        }
+
+        buku.setTitle(title);
+        buku.setAuthor(author);
+        buku.setPublisher(publisher);
+        buku.setYear(year);
+        buku.setCategory(category);
+        buku.setDescription(description);
+        buku.setLokasi_rak(lokasi_rak);
+
+        if (coverFile != null && !coverFile.isEmpty()) {
+            buku.setCover(coverFile.getBytes());
+        }
+
+        bookRepository.save(buku);
+        return "redirect:/tabel-buku";
+    }
+
+    @GetMapping("/delete-buku/{id}")
+    public String deleteBuku(@PathVariable("id") Long id) {
+        bookRepository.deleteById(id);
+        return "redirect:/tabel-buku";
     }
 }

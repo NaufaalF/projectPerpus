@@ -91,6 +91,72 @@ public class PeminjamanController {
         return "redirect:/tabel-peminjaman";
     }
 
+    @GetMapping("/edit-peminjaman/{id}")
+    public String showEditForm(@PathVariable("id") Long id, Model model) {
+        Peminjaman peminjaman = peminjamanRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid peminjaman ID: " + id));
+
+        List<Anggota> daftarAnggota = anggotaRepository.findAll();
+        List<Buku> daftarBuku = bukuRepository.findAll();
+
+        model.addAttribute("peminjaman", peminjaman);
+        model.addAttribute("daftarAnggota", daftarAnggota);
+        model.addAttribute("daftarBuku", daftarBuku);
+        return "admin/tabel peminjaman/editPeminjaman";
+    }
+
+    @PostMapping("/edit-peminjaman/{id}")
+    public String updatePeminjaman(
+            @PathVariable("id") Long id,
+            @RequestParam("anggota_id") Long anggotaId,
+            @RequestParam("buku_id") Long bukuId,
+            @RequestParam("tanggal_pinjam") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate tanggalPinjam,
+            @RequestParam("tanggal_kembali") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate tanggalKembali,
+            @RequestParam("status_peminjaman") String statusPeminjaman,
+            RedirectAttributes redirectAttributes) {
+
+        Peminjaman peminjaman = peminjamanRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid peminjaman ID: " + id));
+
+        Anggota anggota = anggotaRepository.findById(anggotaId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid anggota ID: " + anggotaId));
+
+        Buku bukuLama = peminjaman.getBuku();
+        Buku bukuBaru = bukuRepository.findById(bukuId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid buku ID: " + bukuId));
+
+        // Jika buku diganti, ubah status buku lama & baru
+        if (!bukuLama.getId().equals(bukuBaru.getId())) {
+            bukuLama.setAvailable(true);
+            bukuRepository.save(bukuLama);
+
+            if (!bukuBaru.isAvailable()) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Buku baru tidak tersedia.");
+                return "redirect:/edit-peminjaman/" + id;
+            }
+
+            bukuBaru.setAvailable(false); // buku baru jadi tidak tersedia
+            bukuRepository.save(bukuBaru);
+
+            peminjaman.setBuku(bukuBaru);
+        }
+
+        peminjaman.setAnggota(anggota);
+        peminjaman.setTanggal_pinjam(tanggalPinjam);
+        peminjaman.setTanggal_kembali(tanggalKembali);
+        peminjaman.setStatus_peminjaman(Peminjaman.Status.valueOf(statusPeminjaman));
+
+        peminjamanRepository.save(peminjaman);
+        redirectAttributes.addFlashAttribute("successMessage", "Peminjaman berhasil diperbarui.");
+        return "redirect:/tabel-peminjaman";
+    }
+
+    @GetMapping("/delete-peminjaman/{id}")
+    public String deleteBuku(@PathVariable("id") Long id) {
+        peminjamanRepository.deleteById(id);
+        return "redirect:/tabel-peminjaman";
+    }
+
     @PostMapping("/peminjaman/konfirmasi/{id}")
     public String konfirmasi(@PathVariable Long id) {
         Peminjaman p = peminjamanRepository.findById(id).orElseThrow();
@@ -103,7 +169,7 @@ public class PeminjamanController {
     @PostMapping("/peminjaman/selesai/{id}")
     public String selesai(@PathVariable Long id) {
         Peminjaman p = peminjamanRepository.findById(id).orElseThrow();
-        
+
         // Set status peminjaman selesai dan tanggal kembali
         p.setStatus_peminjaman(Peminjaman.Status.SELESAI);
         p.setTanggal_kembali(LocalDate.now());

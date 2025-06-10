@@ -143,6 +143,7 @@
                                 <th>Tanggal Pinjam</th>
                                 <th>Tanggal Kembali</th>
                                 <th>Status</th>
+                                <th>Konfirmasi</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -170,7 +171,14 @@
                                     <!-- Tidak ada tombol jika status selesai -->
                                     <span th:if="${peminjaman.status_peminjaman.name() == 'SELESAI'}">-</span>
                                 </td>
-
+                                <td>
+                                    <div class="d-flex justify-content-center gap-1">
+                                        <a th:href="@{/edit-peminjaman/{id}(id=${peminjaman.id})}" class="btn btn-sm btn-warning">Edit</a>
+                                            <form th:action="@{/delete-peminjaman/{id}(id=${peminjaman.id})}" method="get" onsubmit="return confirm('Yakin ingin hapus?');">
+                                                <button class="btn btn-sm btn-danger">Hapus</button>
+                                            </form>
+                                    </div>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

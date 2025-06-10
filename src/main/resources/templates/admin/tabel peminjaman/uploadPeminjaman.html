@@ -112,8 +112,19 @@
                     <div class="mb-3 row">
                         <label for="tanggal_kembali" class="col-sm-3 col-form-label fw-bold">Tanggal Kembali</label>
                         <div class="col-sm-9">
-                            <input type="date" class="form-control" id="tanggal_kembali" name="tanggal_kembali"
-                                required>
+                            <input type="date" class="form-control" id="tanggal_kembali" name="tanggal_kembali">
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="status" class="col-sm-3 col-form-label fw-bold">Status</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="status_peminjaman" name="status_peminjaman" required>
+                                <option value="" disabled selected>Pilih Status</option>
+                                <option value="MENUNGGU">MENUNGGU</option>
+                                <option value="DIPINJAM">DIPINJAM</option>
+                                <option value="SELESAI">SELESAI</option>
+                            </select>
                         </div>
                     </div>
 

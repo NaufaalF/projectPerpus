@@ -29,8 +29,8 @@ public class HomeController {
         // Mengambil informasi pengguna yang sedang login
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
-            String username = authentication.getName(); // Mendapatkan nama pengguna
-            model.addAttribute("username", username); // Menambahkan nama pengguna ke model}
+            String username = authentication.getName();
+            model.addAttribute("username", username);
         }
         return "user/homepage";
     }
@@ -42,7 +42,7 @@ public class HomeController {
         byte[] image = buku.getCover();
 
         return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_JPEG) // Atur sesuai jenis gambar
+                .contentType(MediaType.IMAGE_JPEG)
                 .body(image);
     }
 
