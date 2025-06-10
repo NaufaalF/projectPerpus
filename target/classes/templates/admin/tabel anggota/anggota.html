@@ -225,13 +225,22 @@
                   <td th:text="${anggota.address}"></td>
                   <td th:text="${anggota.email}"></td>
                   <td>
-                    <!-- <a th:href="@{/anggota/edit/{id}(id=${anggota.id})}">Edit</a> -->
-                    <!-- <a th:href="@{/anggota/delete/{id}(id=${anggota.id})}" onclick="return confirm('Yakin ingin menghapus?')">Hapus</a> -->
+                    <div class="d-flex justify-content-center gap-1">
+                      <a th:href="@{/edit-anggota/{id}(id=${anggota.id})}" class="btn btn-sm btn-warning">Edit</a>
+                        <form th:action="@{/delete-anggota/{id}(id=${anggota.id})}" method="get" onsubmit="return confirm('Yakin ingin hapus?');">
+                          <button class="btn btn-sm btn-danger">Hapus</button>
+                        </form>
+                    </div>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
+          <a href="/tambah-anggota">
+            <div class="button-upload">
+              <i class="fa-solid fa-plus fa-2x text-white"></i>
+            </div>
+          </a>
         </main>
       </div>
     </div>

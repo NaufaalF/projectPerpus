@@ -59,7 +59,7 @@ public class BukuController {
         buku.setCover(coverFile.getBytes()); // simpan file ke BLOB
 
         bookRepository.save(buku);
-        return "redirect:/dashboard";
+        return "redirect:/tabel-buku";
     }
 
     @GetMapping("/edit-buku/{id}")

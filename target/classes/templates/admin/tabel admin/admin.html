@@ -223,13 +223,22 @@
                   <td th:text="${admin.username}"></td>
                   <td th:text="${admin.department}"></td>
                   <td>
-                    <!-- <a th:href="@{/anggota/edit/{id}(id=${anggota.id})}">Edit</a> -->
-                    <!-- <a th:href="@{/anggota/delete/{id}(id=${anggota.id})}" onclick="return confirm('Yakin ingin menghapus?')">Hapus</a> -->
+                    <div class="d-flex justify-content-center gap-1">
+                      <a th:href="@{/edit-admin/{id}(id=${admin.id})}" class="btn btn-sm btn-warning">Edit</a>
+                        <form th:action="@{/delete-admin/{id}(id=${admin.id})}" method="get" onsubmit="return confirm('Yakin ingin hapus?');">
+                          <button class="btn btn-sm btn-danger">Hapus</button>
+                        </form>
+                    </div>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
+          <a href="/tambah-admin">
+            <div class="button-upload">
+              <i class="fa-solid fa-plus fa-2x text-white"></i>
+            </div>
+          </a>
         </main>
       </div>
     </div>
