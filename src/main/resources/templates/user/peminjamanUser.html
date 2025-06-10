@@ -28,9 +28,6 @@
                     <li class="nav-item">
                         <a class="nav-link text-white" href="#">Peminjaman</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="/pengembalian">Pengembalian</a>
-                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" id="profilDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -64,14 +61,25 @@
             <div class="release-title" th:text="${peminjaman.buku.title}"></div>
             <div class="release-subtitle">
                 <span th:text="'ID: ' + ${peminjaman.id}"></span> |
-                <span th:text="'Pinjam: ' + ${peminjaman.tanggal_pinjam}"></span> |
-                <span th:text="'Kembali: ' + ${peminjaman.tanggal_kembali}"></span>
+                <span th:text="'Pinjam: ' + (${peminjaman.tanggal_pinjam} != null ? ${peminjaman.tanggal_pinjam} : '-')"></span> |
+                <span th:text="'Kembali: ' + (${peminjaman.tanggal_kembali} != null ? ${peminjaman.tanggal_kembali} : '-')"></span>
             </div>
-            <div class="release-subtitle" th:text="'Status: ' + ${peminjaman.status_peminjaman}"></div>
+            <div class="release-subtitle">
+                Status:
+                <span th:if="${peminjaman.status_peminjaman.name() == 'MENUNGGU'}" style="color: red; font-weight: bold;">Menunggu</span>
+                <span th:if="${peminjaman.status_peminjaman.name() == 'DIPINJAM'}" style="color: orange; font-weight: bold;">Dipinjam</span>
+                <span th:if="${peminjaman.status_peminjaman.name() == 'SELESAI'}" style="color: green; font-weight: bold;">Selesai</span>
+            </div>
         </div>
     </div>
 </div>
 
+    <footer>
+        <div class="container-fluid bg-light text-center py-3" >
+            <p class="mb-0">© 2025 Perpustakaan. All rights reserved.</p>
+            <p>Created by <a href="#" class="text-decoration-none">Bojes</a></p>
+        </div>
+    </footer>
 
 </body>
 

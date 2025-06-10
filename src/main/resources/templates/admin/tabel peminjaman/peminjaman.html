@@ -154,7 +154,13 @@
                                 <td th:text="${peminjaman.buku.id + ' - ' + peminjaman.buku.title}"></td>
                                 <td th:text="${peminjaman.tanggal_pinjam}"></td>
                                 <td th:text="${peminjaman.tanggal_kembali}"></td>
-                                <td th:text="${peminjaman.status_peminjaman}"></td>
+                                <td> <span th:if="${peminjaman.status_peminjaman.name() == 'MENUNGGU'}"
+                                        style="color: red; font-weight: bold;">Menunggu</span>
+                                    <span th:if="${peminjaman.status_peminjaman.name() == 'DIPINJAM'}"
+                                        style="color: orange; font-weight: bold;">Dipinjam</span>
+                                    <span th:if="${peminjaman.status_peminjaman.name() == 'SELESAI'}"
+                                        style="color: green; font-weight: bold;">Selesai</span>
+                                </td>
                                 <td>
                                     <!-- Tombol Konfirmasi jika status menunggu -->
                                     <form th:if="${peminjaman.status_peminjaman.name() == 'MENUNGGU'}"
@@ -173,10 +179,12 @@
                                 </td>
                                 <td>
                                     <div class="d-flex justify-content-center gap-1">
-                                        <a th:href="@{/edit-peminjaman/{id}(id=${peminjaman.id})}" class="btn btn-sm btn-warning">Edit</a>
-                                            <form th:action="@{/delete-peminjaman/{id}(id=${peminjaman.id})}" method="get" onsubmit="return confirm('Yakin ingin hapus?');">
-                                                <button class="btn btn-sm btn-danger">Hapus</button>
-                                            </form>
+                                        <a th:href="@{/edit-peminjaman/{id}(id=${peminjaman.id})}"
+                                            class="btn btn-sm btn-warning">Edit</a>
+                                        <form th:action="@{/delete-peminjaman/{id}(id=${peminjaman.id})}" method="get"
+                                            onsubmit="return confirm('Yakin ingin hapus?');">
+                                            <button class="btn btn-sm btn-danger">Hapus</button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
